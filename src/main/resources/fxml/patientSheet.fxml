@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.ib.PatientSheetController">
+   <children>
+      <VBox alignment="BOTTOM_CENTER" prefHeight="400.0" prefWidth="375.0">
+         <children>
+            <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0">
+               <children>
+                  <Button fx:id="permissionsButton" mnemonicParsing="false" onAction="#permissionsAction" text="Zobacz uprawnienia" />
+                  <Button fx:id="enrollButton" mnemonicParsing="false" onAction="#enrollAction" text="Zapisz na szczepienie" />
+                  <Button fx:id="logOutButton" mnemonicParsing="false" onAction="#logOutAction" text="Wyloguj" />
+               </children>
+            </HBox>
+            <TableView fx:id="table" prefHeight="370.0" prefWidth="200.0">
+              <columns>
+                <TableColumn fx:id="vaccineColumn" prefWidth="150.0" text="Szczepionka" />
+                <TableColumn fx:id="dateColumn" prefWidth="150.0" text="Data szczepienia" />
+                  <TableColumn fx:id="realisationColumn" prefWidth="75.0" text="Realizacja" />
+              </columns>
+            </TableView>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
