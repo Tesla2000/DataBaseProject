@@ -1,0 +1,279 @@
+create database punkt_szczepien;
+use punkt_szczepien;
+
+-- -----------------------------------------------------
+-- Table `Pacjenci zapisywani`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS Pacjenci_zapisywani (
+  `PESEL` BIGINT NOT NULL unique,
+  Imie_i_nazwisko VARCHAR(60) NOT NULL,
+  Nr_telefonu BIGINT NULL,
+  Haslo VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`PESEL`));
+
+
+-- -----------------------------------------------------
+-- Table `Pacjenci zapisujący`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS Pacjenci_zapisujacy (
+  `PESEL` BIGINT NOT NULL unique,
+  Imie_i_nazwisko VARCHAR(60) NULL,
+  Nr_telefonu BIGINT NULL,
+  Haslo VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`PESEL`));
+
+
+
+-- -----------------------------------------------------
+-- Table `Pacjent zapisujący_has_Pacjent zapisywany`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS Pacjent_zapisujacy_has_Pacjent_zapisywany (
+  Pacjent_zapisujacy_PESEL BIGINT NOT NULL,
+  Pacjent_zapisywany_PESEL BIGINT NOT NULL,
+  FOREIGN KEY (`Pacjent_zapisywany_PESEL`) REFERENCES Pacjenci_zapisywani(`PESEL`),
+  FOREIGN KEY (`Pacjent_zapisujacy_PESEL`) REFERENCES Pacjenci_zapisujacy(`PESEL`));
+
+-- -----------------------------------------------------
+-- Table `Typy szczepien`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS Typy_szczepien (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  Rodzaj_preparatu VARCHAR(45) NOT NULL,
+  Wiek_minimalny SMALLINT NULL,
+  Wiek_maksymalny SMALLINT NULL,
+  `Kobieta` bit,
+  PRIMARY KEY (`id`));
+
+
+-- -----------------------------------------------------
+-- Table `Szczepienia`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `Szczepienia` (
+  `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `Data` DATETIME NOT NULL,
+  `Realizacja` bit NOT NULL,
+  Rodzaj_preparatu VARCHAR(45) NOT NULL,
+  Pacjent_id BIGINT NOT NULL,
+  FOREIGN KEY (Pacjent_id) REFERENCES Pacjenci_zapisywani(`PESEL`));
+
+
+CREATE TABLE IF NOT EXISTS `Dostępne_godziny` (
+  `Data_i_godzina` datetime NOT NULL,
+   `Typy_szczepien_id` int NOT NULL,
+   FOREIGN KEY (`Typy_szczepien_id`) REFERENCES Typy_szczepien(`id`));
+drop table `Dostępne_godziny`;
+
+
+CREATE VIEW uprawnienia AS
+SELECT zapisywani.`PESEL` as zapisywani_pesel, zapisywani.`Imie_i_nazwisko` as zapisywani_imie,
+zapisywani.`Nr_telefonu` as zapisywani_telefon, zapisujący.`PESEL` as zapisujący_pesel, zapisujący.`Imie_i_nazwisko` as zapisujący_imie,
+zapisujący.`Nr_telefonu` as zapisujący_telefon
+FROM (Pacjenci_zapisywani zapisywani join Pacjent_zapisujacy_has_Pacjent_zapisywany relacja on relacja.`Pacjent_zapisywany_PESEL` = zapisywani.`PESEL`)
+join Pacjenci_zapisujacy zapisujący on relacja.`Pacjent_zapisujacy_PESEL` = zapisujący.`PESEL`;
+
+
+create view widok_szczepien as
+select zapisywani.`PESEL`, zapisywani.`Imie_i_nazwisko`, zapisywani.`Nr_telefonu`, szczepienia.`id`,
+ szczepienia.`Data`, szczepienia.`Realizacja`, szczepienia.`Rodzaj_preparatu`
+from Pacjenci_zapisywani zapisywani join `Szczepienia` szczepienia on zapisywani.`PESEL` = szczepienia.`pacjent_id`;
+
+
+create view `widok_szczepienia_do_realizacji` as select
+	s.`Realizacja` as REALIZACJA,
+	p.`PESEL` as PESEL,
+	p.`Imie_i_nazwisko` as NAZWISKO,
+	p.`Nr_telefonu` as TELEFON
+from
+	`Szczepienia` s
+JOIN
+	Pacjenci_zapisywani p
+on
+	p.`PESEL` = s.`pacjent_id` where s.Realizacja = false;
+
+create view zrealizowane_szczepienia as select
+    p.PESEL as "pesel", p.Imie_i_nazwisko as "Imie_i_nazwisko", s.Rodzaj_preparatu as "Preparat", s.Data as "Data",
+                                               s.Realizacja
+    from pacjenci_zapisywani p join szczepienia s on s.Pacjent_id = p.PESEL;
+
+create view `widok_dostepne_szczepienia` as select
+		t.`id` as ID,
+		t.`Rodzaj_preparatu` as PREPARAT,
+		t.`Kobieta` as PLECWYMAGANA,
+		d.`Data_i_godzina` as TERMIN
+    FROM
+		Typy_szczepien t
+	Join
+		`dostępne_godziny` d
+	on
+		d.Typy_szczepień_id = t.`id`;
+
+DELIMITER //
+create procedure zapis_na_szczepienie
+(in id int, in data_godzina datetime, in PESEL bigint)
+begin
+declare preparat varchar(45) default (select(`Rodzaj_preparatu`) from Typy_szczepien where id = `id`);
+if (select count(*) from `Dostępne_godziny` where `Dostępne_godziny`.`Data_i_godzina` = data_godzina) > 0 then
+INSERT INTO `Szczepienia` (
+  `Data`,
+  `Realizacja`,
+  `Rodzaj_preparatu`,
+  `pacjent_id`) VALUES
+(data_godzina, 0, preparat, PESEL);
+delete from `Dostępne_godziny` where data_godzina = `Data_i_godzina` limit 1;
+end if;
+end //
+DELIMITER ;
+
+DELIMITER //
+create procedure rejestracja_zapisywany
+(in Pesel bigint, in Imie_i_nazwisko VARCHAR(60), in haslo VARCHAR(45), in numer_telefonu BIGINT)
+begin
+INSERT INTO Pacjenci_zapisywani (`PESEL`,
+                                   `Imie_i_nazwisko`,
+                                   `Nr_telefonu`,
+                                   Haslo) VALUES
+(Pesel, Imie_i_nazwisko, numer_telefonu, haslo);
+end //
+DELIMITER ;
+
+
+DELIMITER //
+create procedure rejestracja_zapisujacy
+(in Pesel bigint, in Imie_i_nazwisko VARCHAR(60), in haslo VARCHAR(45), in numer_telefonu BIGINT)
+begin
+INSERT INTO Pacjenci_zapisujacy (`PESEL`,
+                                   `Imie_i_nazwisko`,
+                                   `Nr_telefonu`,
+                                   Haslo) VALUES
+(Pesel, Imie_i_nazwisko, numer_telefonu, haslo);
+end //
+DELIMITER ;
+
+DELIMITER //
+create procedure dodawanie_uprawnien
+(in Pesel_zapisujacy bigint, in Pesel_zapisywany bigint)
+begin
+    if (select count(*) from Pacjenci_zapisujacy where  PESEL like Pesel_zapisujacy) = 1 and
+       (select count(*) from Pacjenci_zapisywani where  PESEL like Pesel_zapisywany) = 1 then
+INSERT INTO Pacjent_zapisujacy_has_Pacjent_zapisywany (`Pacjent_zapisujacy_PESEL`, `Pacjent_zapisywany_PESEL`) VALUES
+(Pesel_zapisujacy, Pesel_zapisywany);
+end if;
+end //
+DELIMITER ;
+
+
+DELIMITER //
+
+create procedure zatwierdzenie_szczepienia (In id_szczepienia int)
+begin
+	update `Szczepienia` set `Realizacja` = 1 where `id` = id_szczepienia;
+end; //
+
+DELIMITER ;
+
+DELIMITER //
+
+create procedure usuwanie_szczepienia (In id_szczepienia int)
+begin
+	delete from `Szczepienia` where `id` = id_szczepienia;
+end; //
+
+DELIMITER ;
+
+
+DELIMITER //
+
+create procedure dodawanie_szczepien (In rodzaj_preparatu varchar(45),
+In min smallint, In max smallint, IN tylko_dla_kobiet bit)
+begin
+	insert into Typy_szczepien
+  (
+   Rodzaj_preparatu,
+   Wiek_minimalny,
+   Wiek_maksymalny,
+   Kobieta
+  ) values (rodzaj_preparatu, min, max, tylko_dla_kobiet);
+end; //
+
+DELIMITER ;
+
+DELIMITER //
+
+create procedure dodawanie_godzin (In czas datetime, In id int)
+begin
+    if (select count(*) from  Typy_szczepien where Typy_szczepien.id like id) > 0 then
+	insert into Dostępne_godziny (Data_i_godzina, Typy_szczepien_id)  values (czas, (select Rodzaj_preparatu
+	    from Typy_szczepien where Typy_szczepien.id = id)) ;
+	end if;
+end; //
+
+DELIMITER ;
+
+
+DELIMITER //
+
+create procedure usuwanie_uprawnienia (In zapisujacy bigint, In zapisywany bigint)
+begin
+	delete from `pacjent_zapisujacy_has_pacjent_zapisywany` where Pacjent_zapisujacy_PESEL = zapisujacy
+	                                                          and Pacjent_zapisywany_PESEL = zapisywany;
+end; //
+
+DELIMITER ;
+
+DELIMITER //
+
+create procedure usuwanie_pacjenta (In pesel bigint)
+begin
+	delete from `pacjent_zapisujacy_has_pacjent_zapisywany` where Pacjent_zapisujacy_PESEL = pesel
+	                                                          or Pacjent_zapisywany_PESEL = pesel;
+	delete from szczepienia where id = pesel;
+	delete from pacjenci_zapisywani where PESEL = pesel;
+	delete from pacjenci_zapisujacy where PESEL = pesel;
+
+end; //
+
+DELIMITER ;
+
+create user 'admin'@'localhost' identified by 'password';
+grant select on punkt_szczepien.uprawnienia to 'admin'@'localhost';
+grant select on punkt_szczepien.widok_dostepne_szczepienia to 'admin'@'localhost';
+grant select on punkt_szczepien.widok_szczepien to 'admin'@'localhost';
+grant select on punkt_szczepien.widok_szczepienia_do_realizacji to 'admin'@'localhost';
+grant select on punkt_szczepien.zrealizowane_szczepienia to 'admin'@'localhost';
+grant execute on procedure zapis_na_szczepienie to 'admin'@'localhost';
+grant execute on procedure dodawanie_godzin to 'admin'@'localhost';
+grant execute on procedure dodawanie_szczepien to 'admin'@'localhost';
+grant execute on procedure dodawanie_uprawnien to 'admin'@'localhost';
+grant execute on procedure rejestracja_zapisywany to 'admin'@'localhost';
+grant execute on procedure usuwanie_szczepienia to 'admin'@'localhost';
+grant execute on procedure zatwierdzenie_szczepienia to 'admin'@'localhost';
+grant execute on procedure usuwanie_uprawnienia to 'admin'@'localhost';
+grant execute on procedure usuwanie_pacjenta to 'admin'@'localhost';
+
+
+# call zapis_na_szczepienie(1, '2008-08-08 00:00:00', 1234);
+# call rejestracja_zapisujacy(1234, 'Jak Nowak','1234', 123456789);
+# call rejestracja_zapisywany(1235, 'Jak Nowak','1234', 123456789);
+# call dodawanie_uprawnien(1234, 1234);
+# call dodawanie_szczepien(1,null, null, FALSE);
+# call dodawanie_godzin('2008-08-08 00:00:00', 1);
+# call zatwierdzenie_szczepienia(1);
+# select * from `Szczepienia`;
+# select * from Typy_szczepien;
+# select * from Dostępne_godziny;
+# select * from Pacjenci_zapisywani;
+# select * from zrealizowane_szczepienia;
+# select * from Pacjenci_zapisujacy;
+# select * from Pacjent_zapisujacy_has_Pacjent_zapisywany;
+# select * from uprawnienia;
+
+
+# create user 'pacjent'@'localhost' identified by 'password';
+# grant select on punkt_szczepien.uprawnienia to 'pacjent'@'localhost';
+# grant select on punkt_szczepien.widok_dostepne_szczepienia to 'pacjent'@'localhost';
+# grant select on punkt_szczepien.widok_szczepien to 'pacjent'@'localhost';
+# grant select on punkt_szczepien.widok_szczepienia_do_realizacji to 'pacjent'@'localhost';
+# grant select on punkt_szczepien.zrealizowane_szczepienia to 'pacjent'@'localhost';
+# grant execute on procedure zapis_na_szczepienie to 'pacjent'@'localhost';
+
+
