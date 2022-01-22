@@ -210,31 +210,29 @@ end; //
 DELIMITER ;
 
 
-call zapis_na_szczepienie(1, '2008-08-08 00:00:00', 1234);
-call rejestracja_zapisujacy(1234, 'Jak Nowak','1234', 123456789);
-call rejestracja_zapisywany(1235, 'Jak Nowak','1234', 123456789);
-call dodawanie_uprawnien(1234, 1234);
-call dodawanie_szczepien(1,null, null, FALSE);
-call dodawanie_godzin('2008-08-08 00:00:00', 1);
-call zatwierdzenie_szczepienia(1);
-select * from `Szczepienia`;
-select * from Typy_szczepien;
-select * from Dostępne_godziny;
-select * from Pacjenci_zapisywani;
-select * from zrealizowane_szczepienia;
-select * from Pacjenci_zapisujacy;
-select * from Pacjent_zapisujacy_has_Pacjent_zapisywany;
-select * from uprawnienia;
+DELIMITER //
 
+create procedure usuwanie_uprawnienia (In zapisujacy bigint, In zapisywany bigint)
+begin
+	delete from `pacjent_zapisujacy_has_pacjent_zapisywany` where Pacjent_zapisujacy_PESEL = zapisujacy
+	                                                          and Pacjent_zapisywany_PESEL = zapisywany;
+end; //
 
-create user 'pacjent'@'localhost' identified by 'password';
-grant select on punkt_szczepien.uprawnienia to 'pacjent'@'localhost';
-grant select on punkt_szczepien.widok_dostepne_szczepienia to 'pacjent'@'localhost';
-grant select on punkt_szczepien.widok_szczepien to 'pacjent'@'localhost';
-grant select on punkt_szczepien.widok_szczepienia_do_realizacji to 'pacjent'@'localhost';
-grant select on punkt_szczepien.zrealizowane_szczepienia to 'pacjent'@'localhost';
-grant execute on procedure zapis_na_szczepienie to 'pacjent'@'localhost';
+DELIMITER ;
 
+DELIMITER //
+
+create procedure usuwanie_pacjenta (In pesel bigint)
+begin
+	delete from `pacjent_zapisujacy_has_pacjent_zapisywany` where Pacjent_zapisujacy_PESEL = pesel
+	                                                          or Pacjent_zapisywany_PESEL = pesel;
+	delete from szczepienia where id = pesel;
+	delete from pacjenci_zapisywani where PESEL = pesel;
+	delete from pacjenci_zapisujacy where PESEL = pesel;
+
+end; //
+
+DELIMITER ;
 
 create user 'admin'@'localhost' identified by 'password';
 grant select on punkt_szczepien.uprawnienia to 'admin'@'localhost';
@@ -249,3 +247,33 @@ grant execute on procedure dodawanie_uprawnien to 'admin'@'localhost';
 grant execute on procedure rejestracja_zapisywany to 'admin'@'localhost';
 grant execute on procedure usuwanie_szczepienia to 'admin'@'localhost';
 grant execute on procedure zatwierdzenie_szczepienia to 'admin'@'localhost';
+grant execute on procedure usuwanie_uprawnienia to 'admin'@'localhost';
+grant execute on procedure usuwanie_pacjenta to 'admin'@'localhost';
+
+
+# call zapis_na_szczepienie(1, '2008-08-08 00:00:00', 1234);
+# call rejestracja_zapisujacy(1234, 'Jak Nowak','1234', 123456789);
+# call rejestracja_zapisywany(1235, 'Jak Nowak','1234', 123456789);
+# call dodawanie_uprawnien(1234, 1234);
+# call dodawanie_szczepien(1,null, null, FALSE);
+# call dodawanie_godzin('2008-08-08 00:00:00', 1);
+# call zatwierdzenie_szczepienia(1);
+# select * from `Szczepienia`;
+# select * from Typy_szczepien;
+# select * from Dostępne_godziny;
+# select * from Pacjenci_zapisywani;
+# select * from zrealizowane_szczepienia;
+# select * from Pacjenci_zapisujacy;
+# select * from Pacjent_zapisujacy_has_Pacjent_zapisywany;
+# select * from uprawnienia;
+
+
+# create user 'pacjent'@'localhost' identified by 'password';
+# grant select on punkt_szczepien.uprawnienia to 'pacjent'@'localhost';
+# grant select on punkt_szczepien.widok_dostepne_szczepienia to 'pacjent'@'localhost';
+# grant select on punkt_szczepien.widok_szczepien to 'pacjent'@'localhost';
+# grant select on punkt_szczepien.widok_szczepienia_do_realizacji to 'pacjent'@'localhost';
+# grant select on punkt_szczepien.zrealizowane_szczepienia to 'pacjent'@'localhost';
+# grant execute on procedure zapis_na_szczepienie to 'pacjent'@'localhost';
+
+
