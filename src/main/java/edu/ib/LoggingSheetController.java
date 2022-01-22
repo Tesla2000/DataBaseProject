@@ -8,7 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
-public class MovieAppController {
+public class LoggingSheetController {
 
     @FXML
     private ResourceBundle resources;
@@ -23,7 +23,7 @@ public class MovieAppController {
     private Button RegisterButton;
 
     @FXML
-    private TextField logginField;
+    private TextField loggingField;
 
     @FXML
     private PasswordField passwordField;
@@ -42,7 +42,7 @@ public class MovieAppController {
     void initialize() {
         assert LogInButton != null : "fx:id=\"LogInButton\" was not injected: check your FXML file 'loggingSheet.fxml'.";
         assert RegisterButton != null : "fx:id=\"RegisterButton\" was not injected: check your FXML file 'loggingSheet.fxml'.";
-        assert logginField != null : "fx:id=\"logginField\" was not injected: check your FXML file 'loggingSheet.fxml'.";
+        assert loggingField != null : "fx:id=\"logginField\" was not injected: check your FXML file 'loggingSheet.fxml'.";
         assert passwordField != null : "fx:id=\"passwordField\" was not injected: check your FXML file 'loggingSheet.fxml'.";
 
     }
