@@ -42,6 +42,11 @@
                   <Button fx:id="RegisterButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#RegisterAction" text="Nie masz konta? Zarejstruj się" />
                </children>
             </HBox>
+            <HBox alignment="CENTER" prefHeight="37.0" prefWidth="200.0">
+               <children>
+                  <Text fx:id="loggerResponse" strokeType="OUTSIDE" strokeWidth="0.0" />
+               </children>
+            </HBox>
          </children>
       </VBox>
    </children>
