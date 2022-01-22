@@ -5,9 +5,9 @@ use punkt_szczepien;
 -- Table `Pacjenci zapisywani`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS Pacjenci_zapisywani (
-  `PESEL` BIGINT NOT NULL unique,
+  `PESEL` varchar(11) NOT NULL unique,
   Imie_i_nazwisko VARCHAR(60) NOT NULL,
-  Nr_telefonu BIGINT NULL,
+  Nr_telefonu varchar(11) NULL,
   Haslo VARCHAR(45) NOT NULL,
   PRIMARY KEY (`PESEL`));
 
@@ -16,9 +16,9 @@ CREATE TABLE IF NOT EXISTS Pacjenci_zapisywani (
 -- Table `Pacjenci zapisujący`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS Pacjenci_zapisujacy (
-  `PESEL` BIGINT NOT NULL unique,
+  `PESEL` varchar(11) NOT NULL unique,
   Imie_i_nazwisko VARCHAR(60) NULL,
-  Nr_telefonu BIGINT NULL,
+  Nr_telefonu varchar(11) NULL,
   Haslo VARCHAR(45) NOT NULL,
   PRIMARY KEY (`PESEL`));
 
@@ -28,8 +28,8 @@ CREATE TABLE IF NOT EXISTS Pacjenci_zapisujacy (
 -- Table `Pacjent zapisujący_has_Pacjent zapisywany`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS Pacjent_zapisujacy_has_Pacjent_zapisywany (
-  Pacjent_zapisujacy_PESEL BIGINT NOT NULL,
-  Pacjent_zapisywany_PESEL BIGINT NOT NULL,
+  Pacjent_zapisujacy_PESEL varchar(11) NOT NULL,
+  Pacjent_zapisywany_PESEL varchar(11) NOT NULL,
   FOREIGN KEY (`Pacjent_zapisywany_PESEL`) REFERENCES Pacjenci_zapisywani(`PESEL`),
   FOREIGN KEY (`Pacjent_zapisujacy_PESEL`) REFERENCES Pacjenci_zapisujacy(`PESEL`));
 
@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS `Szczepienia` (
   `Data` DATETIME NOT NULL,
   `Realizacja` bit NOT NULL,
   Rodzaj_preparatu VARCHAR(45) NOT NULL,
-  Pacjent_id BIGINT NOT NULL,
+  Pacjent_id varchar(11) NOT NULL,
   FOREIGN KEY (Pacjent_id) REFERENCES Pacjenci_zapisywani(`PESEL`));
 
 
@@ -109,7 +109,7 @@ create view `widok_dostepne_szczepienia` as select
 
 DELIMITER //
 create procedure zapis_na_szczepienie
-(in id int, in data_godzina datetime, in PESEL bigint)
+(in id int, in data_godzina datetime, in PESEL varchar(11))
 begin
 declare preparat varchar(45) default (select(`Rodzaj_preparatu`) from Typy_szczepien where id = `id`);
 if (select count(*) from `Dostępne_godziny` where `Dostępne_godziny`.`Data_i_godzina` = data_godzina) > 0 then
@@ -126,7 +126,7 @@ DELIMITER ;
 
 DELIMITER //
 create procedure rejestracja_zapisywany
-(in Pesel bigint, in Imie_i_nazwisko VARCHAR(60), in haslo VARCHAR(45), in numer_telefonu BIGINT)
+(in Pesel varchar(11), in Imie_i_nazwisko VARCHAR(60), in haslo VARCHAR(45), in numer_telefonu varchar(11))
 begin
 INSERT INTO Pacjenci_zapisywani (`PESEL`,
                                    `Imie_i_nazwisko`,
@@ -139,7 +139,7 @@ DELIMITER ;
 
 DELIMITER //
 create procedure rejestracja_zapisujacy
-(in Pesel bigint, in Imie_i_nazwisko VARCHAR(60), in haslo VARCHAR(45), in numer_telefonu BIGINT)
+(in Pesel varchar(11), in Imie_i_nazwisko VARCHAR(60), in haslo VARCHAR(45), in numer_telefonu varchar(11))
 begin
 INSERT INTO Pacjenci_zapisujacy (`PESEL`,
                                    `Imie_i_nazwisko`,
@@ -151,7 +151,7 @@ DELIMITER ;
 
 DELIMITER //
 create procedure dodawanie_uprawnien
-(in Pesel_zapisujacy bigint, in Pesel_zapisywany bigint)
+(in Pesel_zapisujacy varchar(11), in Pesel_zapisywany varchar(11))
 begin
     if (select count(*) from Pacjenci_zapisujacy where  PESEL like Pesel_zapisujacy) = 1 and
        (select count(*) from Pacjenci_zapisywani where  PESEL like Pesel_zapisywany) = 1 then
@@ -212,7 +212,7 @@ DELIMITER ;
 
 DELIMITER //
 
-create procedure usuwanie_uprawnienia (In zapisujacy bigint, In zapisywany bigint)
+create procedure usuwanie_uprawnienia (In zapisujacy varchar(11), In zapisywany varchar(11))
 begin
 	delete from `pacjent_zapisujacy_has_pacjent_zapisywany` where Pacjent_zapisujacy_PESEL = zapisujacy
 	                                                          and Pacjent_zapisywany_PESEL = zapisywany;
@@ -222,7 +222,7 @@ DELIMITER ;
 
 DELIMITER //
 
-create procedure usuwanie_pacjenta (In pesel bigint)
+create procedure usuwanie_pacjenta (In pesel varchar(11))
 begin
 	delete from `pacjent_zapisujacy_has_pacjent_zapisywany` where Pacjent_zapisujacy_PESEL = pesel
 	                                                          or Pacjent_zapisywany_PESEL = pesel;
