@@ -5,25 +5,40 @@ import java.util.ArrayList;
 
 public class Patient {
     private String name;
-    private Long id;
-    private Long phoneNumber = null;
+    private String id; // May begin with zero
+    private String phoneNumber = null;  // May begin with zero
     private String password;
     private String gender;
-    private ArrayList<Patient> permissions = new ArrayList<>();
+    private final ArrayList<Patient> permissions = new ArrayList<>();
+    private final int yearOfBirth;
+    private final int monthOfBirth;
+    private final int dayOfBirth;
 
-    public Patient(String name, Long id, Long phoneNumber, String password) {
+    public Patient(String name, String id, String phoneNumber, String password) {
         this.name = name;
         this.id = id;
         this.phoneNumber = phoneNumber;
         this.password = password;
-        if (id % 2 == 1) this.gender = "Man";
+        if (Integer.parseInt(id)%2 == 1) this.gender = "Man";
         else this.gender = "Woman";
+        if (id.charAt(2) == '2' || id.charAt(2) == '3')
+            yearOfBirth = 2000 + Integer.parseInt(id.substring(0,2));
+        else
+            yearOfBirth = 1900 + Integer.parseInt(id.substring(0,2));
+        monthOfBirth = Integer.parseInt(id.substring(2,4))%20;
+        dayOfBirth = Integer.parseInt(id.substring(4,6));
     }
 
-    public Patient(String name, Long id, String password) {
+    public Patient(String name, String id, String password) {
         this.name = name;
         this.id = id;
         this.password = password;
+        if (id.charAt(2) == '2' || id.charAt(2) == '3')
+            yearOfBirth = 2000 + Integer.parseInt(id.substring(0,2));
+        else
+            yearOfBirth = 1900 + Integer.parseInt(id.substring(0,2));
+        monthOfBirth = Integer.parseInt(id.substring(2,4))%20;
+        dayOfBirth = Integer.parseInt(id.substring(4,6));
     }
 
     public void addPermission(Patient patient) {
@@ -38,13 +53,6 @@ public class Patient {
         int year = LocalDateTime.now().getYear();
         int month = LocalDateTime.now().getMonth().getValue();
         int day = LocalDateTime.now().getDayOfMonth();
-        int yearOfBirth;
-        if (id % 1000000000 > 200000000)
-            yearOfBirth = 2000 + (int) (id / 100000000);
-        else
-            yearOfBirth = 1900 + (int) (id / 100000000);
-        int monthOfBirth = (int) ((id % 200000000) / 10000000);
-        int dayOfBirth = (int) ((id % 10000000) / 100000);
         int age = year - yearOfBirth;
         if (monthOfBirth > month) age -= 1;
         else if (monthOfBirth==month && dayOfBirth > day) age -= 1;
@@ -56,13 +64,6 @@ public class Patient {
         int year = vaccinationDate.getYear();
         int month = vaccinationDate.getMonth().getValue();
         int day = vaccinationDate.getDayOfMonth();
-        int yearOfBirth;
-        if (id % 1000000000 > 200000000)
-            yearOfBirth = 2000 + (int) (id / 100000000);
-        else
-            yearOfBirth = 1900 + (int) (id / 100000000);
-        int monthOfBirth = (int) ((id % 200000000) / 10000000);
-        int dayOfBirth = (int) ((id % 10000000) / 100000);
         int age = year - yearOfBirth;
         if (monthOfBirth > month) age -= 1;
         else if (monthOfBirth==month && dayOfBirth > day) age -= 1;
@@ -81,19 +82,19 @@ public class Patient {
         this.name = name;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public Long getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(Long phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
