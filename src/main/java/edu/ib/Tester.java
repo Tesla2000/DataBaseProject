@@ -24,10 +24,11 @@ public class Tester {
             Connection connection = DriverManager.getConnection(urlConnection);
 
             PreparedStatement selectAllStatement = connection.
-                    prepareStatement("select * from uprawnienia;");
+                    prepareStatement("select PESEL, Haslo from Pacjenci_zapisywani;");
             ResultSet rsTableContent = selectAllStatement.executeQuery();
-            getResult(rsTableContent);
-            System.out.println();
+            ArrayList<ArrayList<String>> res = getResult(rsTableContent);
+            System.out.println(res.get(0).get(1));
+//            System.out.println();
 //            printResultsSet(rsTableContent);
 //            rsTables.close();
 //            showTableStm.close();
@@ -96,7 +97,8 @@ public class Tester {
         while (resultSet.next()){
             ArrayList<String> column = new ArrayList<>();
             for (int i=1; i<=columnCount; i++){//kolumny zaczynaja się od 1
-                column.add(resultSet.getString(i));
+                String string = resultSet.getString(i).toString();
+                column.add(string);
             }
             result.add(column);
         }

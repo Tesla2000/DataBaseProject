@@ -54,7 +54,9 @@ public class PatientSheetController {
         stage.setScene(scene);
         stage.show();
     }
-
+    public void displayVaccines(String PESEL){
+        System.out.println("Displaying");
+    }
     @FXML
     void logOutAction(ActionEvent event) throws IOException {
         Parent root= FXMLLoader.load(getClass().getResource("/fxml/loggingSheet.fxml"));
