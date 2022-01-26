@@ -22,20 +22,12 @@ public class Tester {
 
         try {
             Connection connection = DriverManager.getConnection(urlConnection);
-            PreparedStatement showTableStm = connection.prepareStatement("SHOW TABLES");
-            ResultSet rsTables = showTableStm.executeQuery();
-            while (rsTables.next()){
-                String answer = rsTables.getString(1);
-                System.out.println(answer);
-            }
 
             PreparedStatement selectAllStatement = connection.
                     prepareStatement("select * from uprawnienia;");
             ResultSet rsTableContent = selectAllStatement.executeQuery();
-            while (rsTableContent.next()){
-                String answer=rsTableContent.getString("last");
-                System.out.println(answer);
-            }
+            getResult(rsTableContent);
+            System.out.println();
 //            printResultsSet(rsTableContent);
 //            rsTables.close();
 //            showTableStm.close();
@@ -97,5 +89,37 @@ public class Tester {
             System.out.println();
         }
     }
+    public static ArrayList<ArrayList<String>> getResult(ResultSet resultSet) throws SQLException {
+        ResultSetMetaData rsmd = resultSet.getMetaData();
+        int columnCount = rsmd.getColumnCount();
+        ArrayList<ArrayList<String>> result = new ArrayList<>();
+        while (resultSet.next()){
+            ArrayList<String> column = new ArrayList<>();
+            for (int i=1; i<=columnCount; i++){//kolumny zaczynaja się od 1
+                column.add(resultSet.getString(i));
+            }
+            result.add(column);
+        }
+        return result;
+    }
+
+    public static ArrayList<ArrayList<String>> dataBaseInfo(String command) throws SQLException {
+        StringBuilder url = new StringBuilder();
+        url.append("jdbc:mysql://");
+        url.append("localhost:3306/");
+        url.append("punkt_szczepien?"); // znak zapytania jest ważny
+        url.append("useUnicode=true&characterEncoding=utf-8");
+        url.append("&user=admin");
+        url.append("&password=password");
+        url.append("&servertimeZone=CET");
+        String urlConnection= url.toString();
+        Connection connection = DriverManager.getConnection(urlConnection);
+
+        PreparedStatement selectAllStatement = connection.
+                prepareStatement(command);
+        ResultSet rsTableContent = selectAllStatement.executeQuery();
+        return getResult(rsTableContent);
+    }
+
 
 }

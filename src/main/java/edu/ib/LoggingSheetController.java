@@ -2,6 +2,9 @@ package edu.ib;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -42,7 +45,10 @@ public class LoggingSheetController {
     private PasswordField passwordField;
 
     @FXML
-    void LogInAction(ActionEvent event) throws IOException {
+    void LogInAction(ActionEvent event) throws IOException, SQLException {
+        ArrayList<String> logins = Tester.dataBaseInfo("select PESEL, Haslo from Pacjenci_zapisywani").get(0);
+        ArrayList<String> passwords = Tester.dataBaseInfo("select PESEL, Haslo from Pacjenci_zapisywani").get(1);
+        String login = loggingField.getText().toString();
         Parent root= FXMLLoader.load(getClass().getResource("/fxml/patientSheet.fxml"));
         stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
