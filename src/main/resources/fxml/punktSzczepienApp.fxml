@@ -24,7 +24,7 @@
          <children>
             <HBox prefHeight="100.0" prefWidth="277.0">
                <children>
-                  <Button fx:id="dodajUprawnieniaButton" mnemonicParsing="false" text="Dodaj uprawnienia" />
+                  <Button fx:id="dodajUprawnieniaButton" mnemonicParsing="false" text="Dodaj uprawnienia" onAction="#UprawnieniaAction"/>
                </children>
             </HBox>
             <HBox prefHeight="100.0" prefWidth="323.0">
