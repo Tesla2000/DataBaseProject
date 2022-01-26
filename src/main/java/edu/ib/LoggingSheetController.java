@@ -46,7 +46,7 @@ public class LoggingSheetController {
 
     @FXML
     void LogInAction(ActionEvent event) throws IOException, SQLException {
-        ArrayList<ArrayList<String>> combinations = Tester.dataBaseInfo("select PESEL, Haslo from Pacjenci_zapisywani;");
+        ArrayList<ArrayList<String>> combinations = Tester.dataBaseInfo("select PESEL, Haslo from pacjenci_i_hasla;");
         String login = loggingField.getText();
         String password = passwordField.getText();
         for (ArrayList<String> combination: combinations){

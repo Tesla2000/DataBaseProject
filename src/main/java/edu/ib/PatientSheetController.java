@@ -2,6 +2,10 @@ package edu.ib;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -26,7 +30,7 @@ public class PatientSheetController {
     private URL location;
 
     @FXML
-    private TableColumn<?, ?> dateColumn;
+    private TableColumn<Patient, LocalDateTime> dateColumn;
 
     @FXML
     private Button enrollButton;
@@ -38,13 +42,13 @@ public class PatientSheetController {
     private Button permissionsButton;
 
     @FXML
-    private TableColumn<?, ?> realisationColumn;
+    private TableColumn<Patient, Boolean> realisationColumn;
 
     @FXML
-    private TableView<?> table;
+    private TableView<Patient> table;
 
     @FXML
-    private TableColumn<?, ?> vaccineColumn;
+    private TableColumn<Patient, Vaccine> vaccineColumn;
 
     @FXML
     void enrollAction(ActionEvent event) throws IOException {
@@ -54,8 +58,9 @@ public class PatientSheetController {
         stage.setScene(scene);
         stage.show();
     }
-    public void displayVaccines(String PESEL){
-        System.out.println("Displaying");
+    public void displayVaccines(String PESEL) throws SQLException {
+        ArrayList<ArrayList<String>> result = Tester.dataBaseInfo("select * from zrealizowane_szczepienia");
+
     }
     @FXML
     void logOutAction(ActionEvent event) throws IOException {
