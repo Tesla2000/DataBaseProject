@@ -6,7 +6,11 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Formattable;
 import java.util.ResourceBundle;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,6 +20,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 public class PatientSheetController {
@@ -30,7 +35,7 @@ public class PatientSheetController {
     private URL location;
 
     @FXML
-    private TableColumn<Patient, LocalDateTime> dateColumn;
+    private TableColumn<VaccineRecord, LocalDate> dateColumn;
 
     @FXML
     private Button enrollButton;
@@ -42,13 +47,13 @@ public class PatientSheetController {
     private Button permissionsButton;
 
     @FXML
-    private TableColumn<Patient, Boolean> realisationColumn;
+    private TableColumn<VaccineRecord, Boolean> realisationColumn;
 
     @FXML
-    private TableView<Patient> table;
+    private TableView<VaccineRecord> table;
 
     @FXML
-    private TableColumn<Patient, Vaccine> vaccineColumn;
+    private TableColumn<VaccineRecord, Vaccine> vaccineColumn;
 
     @FXML
     void enrollAction(ActionEvent event) throws IOException {
@@ -59,7 +64,22 @@ public class PatientSheetController {
         stage.show();
     }
     public void displayVaccines(String PESEL) throws SQLException {
-        ArrayList<ArrayList<String>> result = Tester.dataBaseInfo("select * from zrealizowane_szczepienia");
+        ArrayList<ArrayList<String>> results = Tester.dataBaseInfo("select * from zrealizowane_szczepienia " +
+                "where pesel like " + PESEL + ";");
+        vaccineColumn.setCellValueFactory(new PropertyValueFactory<VaccineRecord, Vaccine>("vaccine"));
+        realisationColumn.setCellValueFactory(new PropertyValueFactory<VaccineRecord, Boolean>("realization"));
+        dateColumn.setCellValueFactory(new PropertyValueFactory<VaccineRecord, LocalDate>("date"));
+        ObservableList<VaccineRecord> list = FXCollections.observableArrayList();
+        for (ArrayList<String> result: results){
+            String date = result.get(3).split(" ")[0];
+            int year = Integer.parseInt(date.split("-")[0]);
+            int month = Integer.parseInt(date.split("-")[1]);
+            int day = Integer.parseInt(date.split("-")[2]);
+            list.add(new VaccineRecord(Vaccine.valueOf(result.get(2)), result.get(4).equals("true"),
+                    LocalDate.of(year,month,day)));
+        }
+        table.setItems(list);
+
 
     }
     @FXML
