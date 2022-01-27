@@ -87,12 +87,20 @@ public class EnrollingSheetController {
     void enrollAction(ActionEvent event) throws SQLException {
         int n = Integer.parseInt(number.getText());
         FreeDate row = list.get(n-1);
-        ArrayList<ArrayList<String>> results = Tester.dataBaseInfo("select ID from widok_dostepne_szczepienia" +
-                "where TERMIN = " + row.date().toString() + " and PREPARAT " + row.vaccine().toString() + " limit 1;");
+        enrolledID.getText();
+        for (ArrayList<String> permission: Tester.dataBaseInfo("select * from uprawnienia")){
+            if (permission.get(0).equals(enrolledID.getText()) && permission.get(3).equals(login)){
+                ArrayList<ArrayList<String>> results = Tester.dataBaseInfo("select ID from widok_dostepne_szczepienia" +
+                        "where TERMIN = " + row.date().toString() + " and PREPARAT " + row.vaccine().toString() + " limit 1;");
 
-        Tester.callProcedure("call zapis_na_szczepienie(" + results.get(0).get(0) + ", " +
-                row.date().toString() + ", " + enrolledID.getText() + ")");
-        displayDates(login);
+                Tester.callProcedure("call zapis_na_szczepienie(" + results.get(0).get(0) + ", " +
+                        row.date().toString() + ", " + enrolledID.getText() + ");");
+                displayDates(login);
+                break;
+            }
+        }
+
+
     }
 
     @FXML

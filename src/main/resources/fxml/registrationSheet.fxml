@@ -21,6 +21,16 @@
       </HBox>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
          <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Wprowadź swoje imię i nazwisko" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <TextField fx:id="nameField" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+         <children>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Wprowadź numer telefonu" />
          </children>
       </HBox>
@@ -56,7 +66,7 @@
       </HBox>
       <HBox fx:id="RegisterResponse" alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" />
+            <Text fx:id="resp" strokeType="OUTSIDE" strokeWidth="0.0" />
          </children>
       </HBox>
    </children>

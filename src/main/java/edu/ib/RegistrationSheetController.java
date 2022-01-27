@@ -2,7 +2,10 @@ package edu.ib;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
+
+import edu.ib.structures.Tester;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,6 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class RegistrationSheetController {
@@ -33,6 +37,9 @@ public class RegistrationSheetController {
     private PasswordField passwordField1;
 
     @FXML
+    private TextField nameField;
+
+    @FXML
     private PasswordField passwordField2;
 
     @FXML
@@ -45,12 +52,36 @@ public class RegistrationSheetController {
     private Button registryButton;
 
     @FXML
-    void RegisterAction(ActionEvent event) throws IOException {
-        Parent root= FXMLLoader.load(getClass().getResource("/fxml/patientSheet.fxml"));
-        stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+    private Text resp;
+
+    @FXML
+    void RegisterAction(ActionEvent event) throws IOException, SQLException {
+        if (peselField.getText().length() != 11)
+            resp.setText("Numer PESEL jest nieprawidłowy");
+        else{
+            try {
+                Integer.valueOf(peselField.getText());
+                if (Tester.dataBaseInfo("select count(*) from pacjenci_i_hasla where PESEL like " + peselField.getText()
+                        + ";").get(0).get(0).equals("1"))
+                    resp.setText("Ten numer PESEL jest już zarejestrowany w bazie");
+                else {
+                    if (!passwordField1.getText().equals(passwordField2.getText()))
+                        resp.setText("Podane hasła nie są ze sobą zgodne");
+                    else {
+                        Tester.callProcedure("call rejestracja_zapisywany("+peselField.getText()+", "+
+                                nameField.getText()+", " + passwordField1.getText() + ", "+ phoneField.getText() +");");
+                        Parent root= FXMLLoader.load(getClass().getResource("/fxml/loggingSheet.fxml"));
+                        stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+                        scene = new Scene(root);
+                        stage.setScene(scene);
+                        stage.show();
+                    }
+                }
+            }catch (Exception e){
+                resp.setText("Numer PESEL jest nieprawidłowy");
+            }
+
+        }
     }
 
     @FXML

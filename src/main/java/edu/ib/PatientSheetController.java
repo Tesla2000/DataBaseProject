@@ -98,8 +98,11 @@ public class PatientSheetController {
     }
 
     @FXML
-    void permissionsAction(ActionEvent event) throws IOException {
-        Parent root= FXMLLoader.load(getClass().getResource("/fxml/permissionSheet.fxml"));
+    void permissionsAction(ActionEvent event) throws IOException, SQLException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/permission.fxml"));
+        root = loader.load();
+        PermissionsSheetController enrollingSheetController = loader.getController();
+        enrollingSheetController.displayPermissions(login);
         stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
