@@ -11,27 +11,22 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.ib.EnrollingSheetController">
    <children>
-      <VBox alignment="BOTTOM_CENTER" prefHeight="400.0" prefWidth="300.0">
+      <VBox alignment="BOTTOM_CENTER" prefHeight="400.0" prefWidth="375.0">
          <children>
             <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Button fx:id="backButton" mnemonicParsing="false" onAction="#backAction" text="Powrót do menu" />
                </children>
             </HBox>
-            <HBox alignment="BOTTOM_LEFT" prefHeight="100.0" prefWidth="200.0">
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Zapisywana osoba" wrappingWidth="150.083984375" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Data i godzina zapisu" />
-               </children>
-            </HBox>
-            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <TextField fx:id="enrolledID" />
-                  <TextField fx:id="enrolledDate" />
+                  <TextField fx:id="enrolledID" promptText="Pesel osoby zapisywanej" />
+                  <TextField fx:id="enrolledDate" promptText="Numer wizyty" />
                </children>
             </HBox>
             <TableView fx:id="table" prefHeight="400.0" prefWidth="200.0">
               <columns>
+                  <TableColumn fx:id="number" prefWidth="75.0" text="Wizyta" />
                 <TableColumn fx:id="vaccine" prefWidth="150.0" text="Szczepionka" />
                 <TableColumn fx:id="date" prefWidth="150.0" text="Data i godzina" />
               </columns>

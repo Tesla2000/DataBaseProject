@@ -1,4 +1,4 @@
-package edu.ib;
+package edu.ib.structures;
 
 
 //import com.sun.rowset.CachedRowSetImpl;
@@ -90,6 +90,8 @@ public class Tester {
             System.out.println();
         }
     }
+
+
     public static ArrayList<ArrayList<String>> getResult(ResultSet resultSet) throws SQLException {
         ResultSetMetaData rsmd = resultSet.getMetaData();
         int columnCount = rsmd.getColumnCount();
@@ -105,16 +107,27 @@ public class Tester {
         return result;
     }
 
+    public static void callProcedure(String command) throws SQLException {
+        String urlConnection= "jdbc:mysql://" +
+                "localhost:3306/" +
+                "punkt_szczepien?" + // znak zapytania jest ważny
+                "useUnicode=true&characterEncoding=utf-8" +
+                "&user=admin" +
+                "&password=password" +
+                "&servertimeZone=CET";
+        Connection connection = DriverManager.getConnection(urlConnection);
+        PreparedStatement selectAllStatement = connection.
+                prepareStatement(command);
+        selectAllStatement.executeQuery();
+    }
     public static ArrayList<ArrayList<String>> dataBaseInfo(String command) throws SQLException {
-        StringBuilder url = new StringBuilder();
-        url.append("jdbc:mysql://");
-        url.append("localhost:3306/");
-        url.append("punkt_szczepien?"); // znak zapytania jest ważny
-        url.append("useUnicode=true&characterEncoding=utf-8");
-        url.append("&user=admin");
-        url.append("&password=password");
-        url.append("&servertimeZone=CET");
-        String urlConnection= url.toString();
+        String urlConnection= "jdbc:mysql://" +
+                "localhost:3306/" +
+                "punkt_szczepien?" + // znak zapytania jest ważny
+                "useUnicode=true&characterEncoding=utf-8" +
+                "&user=admin" +
+                "&password=password" +
+                "&servertimeZone=CET";
         Connection connection = DriverManager.getConnection(urlConnection);
 
         PreparedStatement selectAllStatement = connection.

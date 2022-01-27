@@ -1,5 +1,8 @@
 package edu.ib;
 
+import edu.ib.structures.Vaccine;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -15,17 +18,17 @@ public class Patient {
     private final int monthOfBirth;
     private final int dayOfBirth;
 
-//    public Patient(String id) {
-//        this.id = id;
-//        if (Integer.parseInt(id)%2 == 1) this.gender = "Man";
-//        else this.gender = "Woman";
-//        if (id.charAt(2) == '2' || id.charAt(2) == '3')
-//            yearOfBirth = 2000 + Integer.parseInt(id.substring(0,2));
-//        else
-//            yearOfBirth = 1900 + Integer.parseInt(id.substring(0,2));
-//        monthOfBirth = Integer.parseInt(id.substring(2,4))%20;
-//        dayOfBirth = Integer.parseInt(id.substring(4,6));
-//    }
+    public Patient(String id) {
+        this.id = id;
+        if (Integer.parseInt(id)%2 == 1) this.gender = "Man";
+        else this.gender = "Woman";
+        if (id.charAt(2) == '2' || id.charAt(2) == '3')
+            yearOfBirth = 2000 + Integer.parseInt(id.substring(0,2));
+        else
+            yearOfBirth = 1900 + Integer.parseInt(id.substring(0,2));
+        monthOfBirth = Integer.parseInt(id.substring(2,4))%20;
+        dayOfBirth = Integer.parseInt(id.substring(4,6));
+    }
 
     public Patient(String name, String id, String phoneNumber, String password, ArrayList<Vaccine> vaccines) {
         this.name = name;
@@ -63,7 +66,7 @@ public class Patient {
     }
 
 
-    public int getAgeAtVaccination(LocalDateTime vaccinationDate) {
+    public int getAgeAtVaccination(LocalDate vaccinationDate) {
         int year = vaccinationDate.getYear();
         int month = vaccinationDate.getMonth().getValue();
         int day = vaccinationDate.getDayOfMonth();

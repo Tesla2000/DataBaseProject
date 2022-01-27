@@ -4,11 +4,12 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Formattable;
 import java.util.ResourceBundle;
 
+import edu.ib.structures.Tester;
+import edu.ib.structures.Vaccine;
+import edu.ib.structures.VaccineRecord;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -27,6 +28,7 @@ public class PatientSheetController {
     private Stage stage;
     private Scene scene;
     private Parent root;
+    private String login = "";
 
     @FXML
     private ResourceBundle resources;
@@ -56,14 +58,18 @@ public class PatientSheetController {
     private TableColumn<VaccineRecord, Vaccine> vaccineColumn;
 
     @FXML
-    void enrollAction(ActionEvent event) throws IOException {
-        Parent root= FXMLLoader.load(getClass().getResource("/fxml/enrollingSheet.fxml"));
+    void enrollAction(ActionEvent event) throws IOException, SQLException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/enrollingSheet.fxml"));
+        root = loader.load();
+        EnrollingSheetController enrollingSheetController = loader.getController();
+        enrollingSheetController.displayDates(login);
         stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
     }
     public void displayVaccines(String PESEL) throws SQLException {
+        login = PESEL;
         ArrayList<ArrayList<String>> results = Tester.dataBaseInfo("select * from zrealizowane_szczepienia " +
                 "where pesel like " + PESEL + ";");
         vaccineColumn.setCellValueFactory(new PropertyValueFactory<VaccineRecord, Vaccine>("vaccine"));

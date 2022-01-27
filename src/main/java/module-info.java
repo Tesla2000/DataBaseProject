@@ -5,4 +5,5 @@ module LEctureJEBC.main {
     requires java.sql;
 
     opens edu.ib;
+    opens edu.ib.structures;
 }

@@ -4,8 +4,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.ResourceBundle;
+
+import edu.ib.structures.Tester;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

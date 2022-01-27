@@ -1,7 +1,6 @@
-package edu.ib;
+package edu.ib.structures;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public record VaccineRecord(Vaccine vaccine, Boolean realization, LocalDate date) {
 
