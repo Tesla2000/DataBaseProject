@@ -2,11 +2,7 @@ package edu.ib.structures;
 
 import java.time.LocalDate;
 
-public record VaccineRecord(Vaccine vaccine, Boolean realization, LocalDate date) {
-
-    public Vaccine getVaccine() {
-        return vaccine;
-    }
+public record VaccineRecord(Boolean realization,LocalDate date, int pesel, String nazwisko) {
 
     public Boolean getRealization() {
         return realization;
@@ -14,5 +10,13 @@ public record VaccineRecord(Vaccine vaccine, Boolean realization, LocalDate date
 
     public LocalDate getDate() {
         return date;
+    }
+
+    public int getPesel(){
+        return pesel;
+    }
+
+    public String getNazwisko() {
+        return nazwisko;
     }
 }

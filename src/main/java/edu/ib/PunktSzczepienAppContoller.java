@@ -2,8 +2,16 @@ package edu.ib;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import edu.ib.structures.Permit;
+import edu.ib.structures.Tester;
+import edu.ib.structures.VaccineRecord;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -44,7 +52,7 @@ public class PunktSzczepienAppContoller {
     private ComboBox<?> preparatComboBox;
 
     @FXML
-    private TableView<?> tabelaTableView;
+    private TableView<VaccineRecord> tabelaTableView;
 
     @FXML
     private TextField terminDoTextField;
@@ -73,7 +81,7 @@ public class PunktSzczepienAppContoller {
 
 
     @FXML
-    void initialize() {
+    void initialize() throws SQLException {
         assert dodajUprawnieniaButton != null : "fx:id=\"dodajUprawnieniaButton\" was not injected: check your FXML file 'punktSzczepienApp.fxml'.";
         assert idText != null : "fx:id=\"idText\" was not injected: check your FXML file 'punktSzczepienApp.fxml'.";
         assert iloscMiejscTextField != null : "fx:id=\"iloscMiejscTextField\" was not injected: check your FXML file 'punktSzczepienApp.fxml'.";
@@ -84,6 +92,28 @@ public class PunktSzczepienAppContoller {
         assert terminOdTextField != null : "fx:id=\"terminOdTextField\" was not injected: check your FXML file 'punktSzczepienApp.fxml'.";
         assert wykonanoButton != null : "fx:id=\"wykonanoButton\" was not injected: check your FXML file 'punktSzczepienApp.fxml'.";
         assert zatwierdzButton != null : "fx:id=\"zatwierdzButton\" was not injected: check your FXML file 'punktSzczepienApp.fxml'.";
+
+
+
+
+        ObservableList<VaccineRecord> list = FXCollections.observableArrayList();
+
+        for (ArrayList<String> record: Tester.dataBaseInfo("select * `from widok_szczepienia_do_realizacji`")) {
+            record.get(0);
+            list.add(new VaccineRecord(
+                    Boolean.parseBoolean(record.get(0)), //wykonanie
+                    LocalDate.parse(record.get(1)),     // data
+                    Integer.parseInt(record.get(2)),    // pesel
+                    record.get(3)));                    // nazwisko
+        }
+
+
+
+
+
+        tabelaTableView.setItems(list);
+
+
 
     }
 
