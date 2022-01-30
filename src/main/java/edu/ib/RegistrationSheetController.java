@@ -60,7 +60,7 @@ public class RegistrationSheetController {
             resp.setText("Numer PESEL jest nieprawidłowy");
         else{
             try {
-                Integer.valueOf(peselField.getText());
+                Long.valueOf(peselField.getText());
                 if (Tester.dataBaseInfo("select count(*) from pacjenci_i_hasla where PESEL like " + peselField.getText()
                         + ";").get(0).get(0).equals("1"))
                     resp.setText("Ten numer PESEL jest już zarejestrowany w bazie");
@@ -68,17 +68,31 @@ public class RegistrationSheetController {
                     if (!passwordField1.getText().equals(passwordField2.getText()))
                         resp.setText("Podane hasła nie są ze sobą zgodne");
                     else {
-                        Tester.callProcedure("call rejestracja_zapisywany("+peselField.getText()+", "+
-                                nameField.getText()+", " + passwordField1.getText() + ", "+ phoneField.getText() +");");
-                        Parent root= FXMLLoader.load(getClass().getResource("/fxml/loggingSheet.fxml"));
-                        stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
-                        scene = new Scene(root);
-                        stage.setScene(scene);
-                        stage.show();
+                        String name = nameField.getText();
+                        String pass1 = passwordField1.getText();
+                        String phone = phoneField.getText();
+                        if (phone.equals("")) phone = null;
+                        if (name.equals(""))
+                            resp.setText("Imię nie może pozostać puste");
+                        else {
+                            if (pass1.equals(""))
+                                resp.setText("Pole hasło nie może pozostac puste");
+                            else{
+                                Tester.callProcedure("call rejestracja_zapisywany("+peselField.getText()+", '"+
+                                        name +"', '" + pass1 + "', "+ phone +");");
+                                Parent root= FXMLLoader.load(getClass().getResource("/fxml/loggingSheet.fxml"));
+                                stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+                                scene = new Scene(root);
+                                stage.setScene(scene);
+                                stage.show();
+                            }
+                        }
+
                     }
                 }
             }catch (Exception e){
-                resp.setText("Numer PESEL jest nieprawidłowy");
+                System.out.println(e.getMessage());
+                resp.setText("Pesel nie jest poprawny");
             }
 
         }
