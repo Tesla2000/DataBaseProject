@@ -7,14 +7,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.ResourceBundle;
 
-import edu.ib.structures.FreeDate;
-import edu.ib.structures.Tester;
-import edu.ib.structures.Vaccine;
-import edu.ib.structures.VaccineRecord;
+import edu.ib.structures.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;

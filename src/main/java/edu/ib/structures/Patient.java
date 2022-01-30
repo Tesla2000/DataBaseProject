@@ -1,6 +1,4 @@
-package edu.ib;
-
-import edu.ib.structures.Vaccine;
+package edu.ib.structures;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -12,7 +10,7 @@ public class Patient {
     private String phoneNumber = null;  // May begin with zero
     private String password = null;
     private ArrayList<Vaccine> vaccines = new ArrayList<>();
-    private String gender;
+    private final Gender gender;
     private final ArrayList<Patient> permissions = new ArrayList<>();
     private final int yearOfBirth;
     private final int monthOfBirth;
@@ -20,8 +18,8 @@ public class Patient {
 
     public Patient(String id) {
         this.id = id;
-        if (Integer.parseInt(id)%2 == 1) this.gender = "Man";
-        else this.gender = "Woman";
+        if (Long.parseLong(id)%2 == 1) this.gender = Gender.Man;
+        else this.gender = Gender.Woman;
         if (id.charAt(2) == '2' || id.charAt(2) == '3')
             yearOfBirth = 2000 + Integer.parseInt(id.substring(0,2));
         else
@@ -36,8 +34,8 @@ public class Patient {
         this.phoneNumber = phoneNumber;
         this.password = password;
         this.vaccines = vaccines;
-        if (Integer.parseInt(id)%2 == 1) this.gender = "Man";
-        else this.gender = "Woman";
+        if (Long.parseLong(id)%2 == 1) this.gender = Gender.Man;
+        else this.gender = Gender.Woman;
         if (id.charAt(2) == '2' || id.charAt(2) == '3')
             yearOfBirth = 2000 + Integer.parseInt(id.substring(0,2));
         else
@@ -112,7 +110,7 @@ public class Patient {
         this.password = password;
     }
 
-    public String getGender() {
+    public Gender getGender() {
         return gender;
     }
 }
