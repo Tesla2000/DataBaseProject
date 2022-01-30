@@ -87,7 +87,6 @@ public class RegistrationSheetController {
                                 stage.show();
                             }
                         }
-
                     }
                 }
             }catch (Exception e){

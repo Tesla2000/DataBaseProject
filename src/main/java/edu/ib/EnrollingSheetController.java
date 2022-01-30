@@ -129,16 +129,63 @@ public class EnrollingSheetController {
 
     @FXML
     void enrollAction(ActionEvent event) throws SQLException {
-        int n = Integer.parseInt(number.getText());
+        table.getItems().clear();
+        String pesel = enrolledID.getText();
+        int n = 0;
+        Patient patient = new Patient(pesel);
+        ArrayList<ArrayList<String>> results = Tester.dataBaseInfo("select * from widok_dostepne_szczepienia;");
+        vaccine.setCellValueFactory(new PropertyValueFactory<FreeDate, Vaccine>("vaccine"));
+        date.setCellValueFactory(new PropertyValueFactory<FreeDate, LocalDateTime>("date"));
+        number.setCellValueFactory(new PropertyValueFactory<FreeDate, Integer>("number"));
+        for (ArrayList<String> result: results){
+            String date = result.get(5).split(" ")[0];
+            int year = Integer.parseInt(date.split("-")[0]);
+            int month = Integer.parseInt(date.split("-")[1]);
+            int day = Integer.parseInt(date.split("-")[2]);
+            int age = patient.getAgeAtVaccination(LocalDate.of(year, month, day));
+            if ((result.get(4).equals("null") || age <= Integer.parseInt(result.get(4))) &&
+                    (result.get(3).equals("null") || age >= Integer.parseInt(result.get(3)))){
+                ArrayList<ArrayList<String>> vaccinesTaken = Tester.dataBaseInfo("select Data from widok_szczepien " +
+                        "where PESEL like " + pesel +" and Rodzaj_preparatu like '" + result.get(1) +
+                        "' order by Data desc limit 1;");
+                if (vaccinesTaken.size() == 0)
+                {
+                    date = result.get(5).split(" ")[1];
+                    int hour = Integer.parseInt(date.split(":")[0]);
+                    int minute = Integer.parseInt(date.split(":")[1]);
+                    n++;
+                    list.add(new FreeDate(LocalDateTime.of(year,month,day,hour,minute),
+                            Vaccine.valueOf(result.get(1)), n));
+                }
+                else{
+                    String lastTimeTaken = vaccinesTaken.get(0).get(0);
+                    if (ChronoUnit.DAYS.between(LocalDate.of(Integer.parseInt(lastTimeTaken.split("-")[0]),
+                            Integer.parseInt(lastTimeTaken.split("-")[1]),
+                            Integer.parseInt(lastTimeTaken.split("-")[2])), LocalDate.of(year, month, day)) < 366){
+                        date = result.get(5).split(" ")[1];
+                        int hour = Integer.parseInt(date.split(":")[0]);
+                        int minute = Integer.parseInt(date.split(":")[1]);
+                        n++;
+                        list.add(new FreeDate(LocalDateTime.of(year,month,day,hour,minute),
+                                Vaccine.valueOf(result.get(1)), n));
+
+                    }
+                }
+            }
+        }
+        n = Integer.parseInt(enrolledDate.getText());
         FreeDate row = list.get(n-1);
-        enrolledID.getText();
         for (ArrayList<String> permission: Tester.dataBaseInfo("select * from uprawnienia")){
             if (permission.get(0).equals(enrolledID.getText()) && permission.get(3).equals(login)){
-                ArrayList<ArrayList<String>> results = Tester.dataBaseInfo("select ID from widok_dostepne_szczepienia" +
-                        "where TERMIN = " + row.getDate().toString() + " and PREPARAT " + row.getVaccine().toString() + " limit 1;");
-
-                Tester.callProcedure("call zapis_na_szczepienie(" + results.get(0).get(0) + ", " +
-                        row.getDate().toString() + ", " + enrolledID.getText() + ");");
+                String command = "select ID from widok_dostepne_szczepienia " +
+                        "where TERMIN = '" + row.getDate().toString().replace("T"," ") + "' " +
+                        "and PREPARAT like '" + row.getVaccine().toString() + "' limit 1;";
+//                System.out.println(command);
+                results = Tester.dataBaseInfo(command);
+                command = "call zapis_na_szczepienie(" + results.get(0).get(0) + ", '" +
+                        row.getDate().toString().replace("T"," ") + "', '" + enrolledID.getText() + "');";
+                System.out.println(command);
+                Tester.callProcedure(command);
                 displayDates(login);
                 break;
             }
