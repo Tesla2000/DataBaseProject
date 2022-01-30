@@ -1,18 +1,25 @@
 package edu.ib.structures;
 
-public record Permit(String PESEL, String name, String phoneNumber) {
-    @Override
-    public String PESEL() {
+public class Permit{
+    private String PESEL;
+    private String name;
+    private String phoneNumber;
+
+    public Permit(String PESEL, String name, String phoneNumber) {
+        this.PESEL = PESEL;
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getPESEL() {
         return PESEL;
     }
 
-    @Override
-    public String name() {
+    public String getName() {
         return name;
     }
 
-    @Override
-    public String phoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 }

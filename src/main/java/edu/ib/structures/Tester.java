@@ -99,7 +99,9 @@ public class Tester {
         while (resultSet.next()){
             ArrayList<String> column = new ArrayList<>();
             for (int i=1; i<=columnCount; i++){//kolumny zaczynaja się od 1
-                String string = resultSet.getString(i).toString();
+                String string = resultSet.getString(i);
+                if (string == null)
+                    string = "brak";
                 column.add(string);
             }
             result.add(column);
