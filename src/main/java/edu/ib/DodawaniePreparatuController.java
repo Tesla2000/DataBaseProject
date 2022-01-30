@@ -43,7 +43,7 @@ public class DodawaniePreparatuController {
         String nazwaPreparatu = nazwa.getText();
 
 
-        Tester.callProcedure("Call Dodawanie_szczepień("+nazwaPreparatu+","+min+","+max+","+czyTylkoDlaKobiet+");");
+        Tester.callProcedure("Call dodawanie_szczepien('"+nazwaPreparatu+"',"+min+","+max+","+czyTylkoDlaKobiet+");");
 
 
 

@@ -78,7 +78,7 @@ public class RegistrationSheetController {
                             if (pass1.equals(""))
                                 resp.setText("Pole hasło nie może pozostac puste");
                             else{
-                                Tester.callProcedure("call rejestracja_zapisywany("+peselField.getText()+", '"+
+                                Tester.callProcedure("call rejestracja_zapisujacy("+peselField.getText()+", '"+
                                         name +"', '" + pass1 + "', "+ phone +");");
                                 Parent root= FXMLLoader.load(getClass().getResource("/fxml/loggingSheet.fxml"));
                                 stage = (Stage) ((Node)event.getSource()).getScene().getWindow();

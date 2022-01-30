@@ -81,7 +81,7 @@ public class PermissionsSheetController {
         phone.setCellValueFactory(new PropertyValueFactory<Permit, String>("phoneNumber"));
         ObservableList<Permit> list = FXCollections.observableArrayList();
         for (ArrayList<String> permission: Tester.dataBaseInfo("select * from uprawnienia where " +
-                "zapisujacy_pesel like " + login + ";")) {
+                "zapisujacy_pesel like '" + login + "';")) {
             permission.get(0);
             list.add(new Permit(permission.get(0), permission.get(1), permission.get(2)));
         }

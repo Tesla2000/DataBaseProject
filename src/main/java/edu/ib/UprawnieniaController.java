@@ -63,7 +63,7 @@ public class UprawnieniaController {
     void zatwierdz(ActionEvent event) throws SQLException {
         String pierwszy = peselPierwszyTextField.getText();
         String drugi = peselDwaTextField.getText();
-        Tester.callProcedure("dodawanie_uprawnien("+pierwszy+","+drugi+")");
+        Tester.callProcedure("call dodawanie_uprawnien('"+pierwszy+"','"+drugi+"');");
 
     }
 

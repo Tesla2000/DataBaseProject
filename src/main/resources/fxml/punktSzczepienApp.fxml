@@ -85,7 +85,7 @@
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </HBox.margin>
                   </TextField>
-                  <Button fx:id="plusButton" mnemonicParsing="false" text="+">
+                  <Button fx:id="plusButton" mnemonicParsing="false" onAction="#dodajPreparat" text="+">
                      <HBox.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </HBox.margin></Button>
