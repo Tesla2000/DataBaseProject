@@ -22,6 +22,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
@@ -43,11 +44,17 @@ public class PatientSheetController {
     @FXML
     private Button enrollButton;
 
+
     @FXML
     private Button logOutButton;
 
     @FXML
     private Button permissionsButton;
+    @FXML
+    private Button unsubscribeButton;
+
+    @FXML
+    private TextField unsubscribeField;
 
     @FXML
     private TableColumn<PatientsVaccine, Boolean> realisationColumn;
@@ -57,6 +64,14 @@ public class PatientSheetController {
 
     @FXML
     private TableColumn<PatientsVaccine, Vaccine> vaccineColumn;
+
+    @FXML
+    void unsubscribeAction(ActionEvent event) throws SQLException {
+        String vaccine = unsubscribeField.getText();
+        Tester.callProcedure("call usuwanie_szczepienia(select id from widok_szczepien where " +
+                "realizacja = 0 and PESEL like "+login+" and Rodzaj_preparatu like "+vaccine+";)");
+    }
+
 
     @FXML
     void enrollAction(ActionEvent event) throws IOException, SQLException {
