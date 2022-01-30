@@ -103,7 +103,7 @@ public class PunktSzczepienAppContoller {
 
 
         ObservableList<VaccineRecord> list = FXCollections.observableArrayList();
-        for (ArrayList<String> record: Tester.dataBaseInfo("select * `from widok_szczepienia_do_realizacji`")) {
+        for (ArrayList<String> record: Tester.dataBaseInfo("select * from `widok_szczepienia_do_realizacji`;")) {
             record.get(0);
             list.add(new VaccineRecord(
                     Boolean.parseBoolean(record.get(0)), //wykonanie

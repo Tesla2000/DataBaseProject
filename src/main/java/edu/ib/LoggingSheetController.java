@@ -52,15 +52,28 @@ public class LoggingSheetController {
         String password = passwordField.getText();
         for (ArrayList<String> combination: combinations){
             if (combination.get(0).equals(login) && combination.get(1).equals(password)){
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/patientSheet.fxml"));
-                root = loader.load();
-                PatientSheetController patientSheetController = loader.getController();
-                patientSheetController.displayVaccines(login);
-                stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
-                scene = new Scene(root);
-                stage.setScene(scene);
-                stage.show();
-                break;
+                if (login.equals("123"))
+                {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/punktSzczepienApp.fxml"));
+                    root = loader.load();
+                    stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+                    scene = new Scene(root);
+                    stage.setScene(scene);
+                    stage.show();
+                }
+                    else{
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/patientSheet.fxml"));
+                    root = loader.load();
+                    PatientSheetController patientSheetController = loader.getController();
+                    patientSheetController.displayVaccines(login);
+                    stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+                    scene = new Scene(root);
+                    stage.setScene(scene);
+                    stage.show();
+                    break;
+                }
+
+
             }
         }
         loggerResponse.setText("Niepoprawny login lub hasło");
