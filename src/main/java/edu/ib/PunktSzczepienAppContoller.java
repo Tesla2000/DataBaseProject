@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -55,10 +56,7 @@ public class PunktSzczepienAppContoller {
     private TableView<VaccineRecord> tabelaTableView;
 
     @FXML
-    private TextField terminDoTextField;
-
-    @FXML
-    private TextField terminOdTextField;
+    private TextField terminTextField;
 
     @FXML
     private Button wykonanoButton;
@@ -66,6 +64,9 @@ public class PunktSzczepienAppContoller {
     @FXML
     private Button zatwierdzButton;
 
+
+    @FXML
+    private TextField idPreparatu;
 
     @FXML
     void UprawnieniaAction(ActionEvent event) throws IOException {
@@ -88,8 +89,7 @@ public class PunktSzczepienAppContoller {
         assert plusButton != null : "fx:id=\"plusButton\" was not injected: check your FXML file 'punktSzczepienApp.fxml'.";
         assert preparatComboBox != null : "fx:id=\"preparatComboBox\" was not injected: check your FXML file 'punktSzczepienApp.fxml'.";
         assert tabelaTableView != null : "fx:id=\"tabelaTableView\" was not injected: check your FXML file 'punktSzczepienApp.fxml'.";
-        assert terminDoTextField != null : "fx:id=\"terminDoTextField\" was not injected: check your FXML file 'punktSzczepienApp.fxml'.";
-        assert terminOdTextField != null : "fx:id=\"terminOdTextField\" was not injected: check your FXML file 'punktSzczepienApp.fxml'.";
+        assert terminTextField != null : "fx:id=\"terminDoTextField\" was not injected: check your FXML file 'punktSzczepienApp.fxml'.";
         assert wykonanoButton != null : "fx:id=\"wykonanoButton\" was not injected: check your FXML file 'punktSzczepienApp.fxml'.";
         assert zatwierdzButton != null : "fx:id=\"zatwierdzButton\" was not injected: check your FXML file 'punktSzczepienApp.fxml'.";
 
@@ -127,7 +127,21 @@ public class PunktSzczepienAppContoller {
     }
 
 
+    @FXML
+    void dodajTermin(ActionEvent event) throws SQLException {
 
+        int iloscMiejsc = Integer.parseInt(iloscMiejscTextField.getText());
+        LocalDateTime termin = LocalDateTime.parse(terminTextField.getText());  //  data w odp. formacie
+        int id = Integer.parseInt(idPreparatu.getText());
+
+        for (int i = 0; i < iloscMiejsc; i++){
+            // jak jest kilka terminów to dodaję w odstępie 15 min
+            Tester.callProcedure("Call dodawanie_godzin("+termin.plusMinutes(i*15)+","+id+";");
+        }
+
+
+
+    }
 
 
 
