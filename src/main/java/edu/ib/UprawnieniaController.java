@@ -60,10 +60,18 @@ public class UprawnieniaController {
     }
 
     @FXML
-    void zatwierdz(ActionEvent event) throws SQLException {
+    void zatwierdz(ActionEvent event) throws SQLException, IOException {
         String pierwszy = peselPierwszyTextField.getText();
         String drugi = peselDwaTextField.getText();
         Tester.callProcedure("call dodawanie_uprawnien('"+pierwszy+"','"+drugi+"');");
+
+        Parent root= FXMLLoader.load(getClass().getResource("/fxml/punktSzczepienApp.fxml"));
+        stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+
+
 
     }
 
