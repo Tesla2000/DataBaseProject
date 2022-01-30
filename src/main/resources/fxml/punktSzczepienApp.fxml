@@ -11,12 +11,14 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.ib.PunktSzczepienAppContoller">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.ib.PunktSzczepienAppContoller">
    <right>
-      <TableView fx:id="tabelaTableView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <TableView fx:id="tabelaTableView" prefHeight="280.0" prefWidth="294.0" BorderPane.alignment="CENTER">
         <columns>
-          <TableColumn prefWidth="75.0" text="C1" />
-          <TableColumn prefWidth="75.0" text="C2" />
+          <TableColumn prefWidth="75.0" text="Wykonanie" />
+          <TableColumn prefWidth="75.0" text="data" />
+            <TableColumn prefWidth="75.0" text="Pesel" />
+            <TableColumn prefWidth="75.0" text="Nzawisko" />
         </columns>
          <BorderPane.margin>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -40,7 +42,7 @@
                      <HBox.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </HBox.margin></TextField>
-                  <Button fx:id="wykonanoButton" mnemonicParsing="false" text="Wykonano">
+                  <Button fx:id="wykonanoButton" mnemonicParsing="false" onAction="#zmienNaWykonane" text="Wykonano">
                      <HBox.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </HBox.margin></Button>
@@ -50,7 +52,7 @@
       </HBox>
    </bottom>
    <center>
-      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+      <VBox prefHeight="300.0" prefWidth="392.0" BorderPane.alignment="CENTER">
          <children>
             <VBox prefHeight="87.0" prefWidth="400.0">
                <children>
@@ -84,7 +86,7 @@
                   </HBox>
                </children>
             </VBox>
-            <HBox prefHeight="100.0" prefWidth="200.0">
+            <HBox prefHeight="100.0" prefWidth="572.0">
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Typ preparatu">
                      <HBox.margin>

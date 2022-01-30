@@ -94,10 +94,7 @@ public class PunktSzczepienAppContoller {
         assert zatwierdzButton != null : "fx:id=\"zatwierdzButton\" was not injected: check your FXML file 'punktSzczepienApp.fxml'.";
 
 
-
-
         ObservableList<VaccineRecord> list = FXCollections.observableArrayList();
-
         for (ArrayList<String> record: Tester.dataBaseInfo("select * `from widok_szczepienia_do_realizacji`")) {
             record.get(0);
             list.add(new VaccineRecord(
@@ -106,15 +103,33 @@ public class PunktSzczepienAppContoller {
                     Integer.parseInt(record.get(2)),    // pesel
                     record.get(3)));                    // nazwisko
         }
+        tabelaTableView.setItems(list);
+    }
 
+    @FXML
+    void zmienNaWykonane(ActionEvent event) throws SQLException {
 
-
-
-
+        String id = idText.getText(); // pobieram id
+        Tester.callProcedure("Call zatwierdzenie_szczepienia("+id+");");    // zatwierdzam w bazie danych
+        // aktualizowane danych w tabeli
+        ObservableList<VaccineRecord> list = FXCollections.observableArrayList();
+        for (ArrayList<String> record: Tester.dataBaseInfo("select * `from widok_szczepienia_do_realizacji`")) {
+            record.get(0);
+            list.add(new VaccineRecord(
+                    Boolean.parseBoolean(record.get(0)), //wykonanie
+                    LocalDate.parse(record.get(1)),     // data
+                    Integer.parseInt(record.get(2)),    // pesel
+                    record.get(3)));                    // nazwisko
+        }
         tabelaTableView.setItems(list);
 
 
-
     }
+
+
+
+
+
+
 
 }
