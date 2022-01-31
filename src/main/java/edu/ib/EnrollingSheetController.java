@@ -190,7 +190,7 @@ public class EnrollingSheetController {
                 break;
             }
         }
-
+        table.getItems().clear();
 
     }
 

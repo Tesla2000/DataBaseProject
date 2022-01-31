@@ -105,11 +105,14 @@ public class PunktSzczepienAppContoller {
 
         ObservableList<VaccineRecord> list = FXCollections.observableArrayList();
         for (ArrayList<String> record: Tester.dataBaseInfo("select * from `widok_szczepienia_do_realizacji`;")) {
-            record.get(0);
+            int year = Integer.parseInt(record.get(1).split(" ")[0].split("-")[0]);
+            int month = Integer.parseInt(record.get(1).split(" ")[0].split("-")[1]);
+            int day = Integer.parseInt(record.get(1).split(" ")[0].split("-")[2]);
+
             list.add(new VaccineRecord(
                     Boolean.parseBoolean(record.get(0)), //wykonanie
-                    LocalDate.parse(record.get(1)),     // data
-                    Integer.parseInt(record.get(2)),    // pesel
+                    LocalDate.of(year,month,day),     // data
+                    Long.parseLong(record.get(2)),    // pesel
                     record.get(3)));                    // nazwisko
         }
         tabelaTableView.setItems(list);
@@ -127,7 +130,7 @@ public class PunktSzczepienAppContoller {
             list.add(new VaccineRecord(
                     Boolean.parseBoolean(record.get(0)), //wykonanie
                     LocalDate.parse(record.get(1)),     // data
-                    Integer.parseInt(record.get(2)),    // pesel
+                    Long.parseLong(record.get(2)),    // pesel
                     record.get(3)));                    // nazwisko
         }
         tabelaTableView.setItems(list);

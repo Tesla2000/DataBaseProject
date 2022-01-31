@@ -5,10 +5,10 @@ import java.time.LocalDate;
 public class VaccineRecord {
     private Boolean realization;
     private LocalDate date;
-    private int pesel;
+    private long pesel;
     private String nazwisko;
 
-    public VaccineRecord(Boolean realization, LocalDate date, int pesel, String nazwisko) {
+    public VaccineRecord(Boolean realization, LocalDate date, long pesel, String nazwisko) {
         this.realization = realization;
         this.date = date;
         this.pesel = pesel;
@@ -23,7 +23,7 @@ public class VaccineRecord {
         return date;
     }
 
-    public int getPesel() {
+    public long getPesel() {
         return pesel;
     }
 

@@ -72,8 +72,6 @@ public class LoggingSheetController {
                     stage.show();
                     break;
                 }
-
-
             }
         }
         loggerResponse.setText("Niepoprawny login lub hasło");
