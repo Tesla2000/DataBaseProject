@@ -5,6 +5,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+import edu.ib.structures.Patient;
 import edu.ib.structures.Tester;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -60,6 +61,7 @@ public class RegistrationSheetController {
             resp.setText("Numer PESEL jest nieprawidłowy");
         else{
             try {
+                new Patient(peselField.getText());
                 Long.valueOf(peselField.getText());
                 if (Tester.dataBaseInfo("select count(*) from pacjenci_i_hasla where PESEL like " + peselField.getText()
                         + ";").get(0).get(0).equals("1"))

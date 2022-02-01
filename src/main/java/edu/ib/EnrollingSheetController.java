@@ -87,6 +87,8 @@ public class EnrollingSheetController {
                 ArrayList<ArrayList<String>> vaccinesTaken = Tester.dataBaseInfo("select Data from widok_szczepien " +
                         "where PESEL like " + pesel +" and Rodzaj_preparatu like '" + result.get(1) +
                         "' order by Data desc limit 1;");
+                String lastTimeOther = Tester.dataBaseInfo("select Data from widok_szczepien " +
+                        "where PESEL like " + pesel + " order by Data desc limit 1;").get(0).get(0).split(" ")[0];
                 if (vaccinesTaken.size() == 0)
                 {
                     date = result.get(5).split(" ")[1];
@@ -97,10 +99,14 @@ public class EnrollingSheetController {
                             Vaccine.valueOf(result.get(1)), n));
                 }
                 else{
-                    String lastTimeTaken = vaccinesTaken.get(0).get(0);
-                    if (ChronoUnit.DAYS.between(LocalDate.of(Integer.parseInt(lastTimeTaken.split("-")[0]),
+                    String lastTimeTaken = vaccinesTaken.get(0).get(0).split(" ")[0];
+
+                    if (Math.abs(ChronoUnit.DAYS.between(LocalDate.of(Integer.parseInt(lastTimeTaken.split("-")[0]),
                             Integer.parseInt(lastTimeTaken.split("-")[1]),
-                            Integer.parseInt(lastTimeTaken.split("-")[2])), LocalDate.of(year, month, day)) < 366){
+                            Integer.parseInt(lastTimeTaken.split("-")[2])), LocalDate.of(year, month, day))) > 365
+                    && Math.abs(ChronoUnit.DAYS.between(LocalDate.of(Integer.parseInt(lastTimeOther.split("-")[0]),
+                            Integer.parseInt(lastTimeOther.split("-")[1]),
+                            Integer.parseInt(lastTimeOther.split("-")[2])), LocalDate.of(year, month, day))) > 21){
                         date = result.get(5).split(" ")[1];
                         int hour = Integer.parseInt(date.split(":")[0]);
                         int minute = Integer.parseInt(date.split(":")[1]);
