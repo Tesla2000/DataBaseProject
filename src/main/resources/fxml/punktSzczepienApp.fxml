@@ -14,10 +14,10 @@
    <right>
       <TableView fx:id="tabelaTableView" prefHeight="280.0" prefWidth="294.0" BorderPane.alignment="CENTER">
         <columns>
-          <TableColumn prefWidth="75.0" text="Wykonanie" />
-          <TableColumn prefWidth="75.0" text="data" />
-            <TableColumn prefWidth="75.0" text="Pesel" />
-            <TableColumn prefWidth="75.0" text="Nzawisko" />
+          <TableColumn fx:id="Finalizaion" prefWidth="75.0" text="Wykonanie" />
+          <TableColumn fx:id="date" prefWidth="75.0" text="data" />
+            <TableColumn fx:id="pesel" prefWidth="75.0" text="Pesel" />
+            <TableColumn fx:id="lastName" prefWidth="75.0" text="Nazwisko" />
         </columns>
          <BorderPane.margin>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

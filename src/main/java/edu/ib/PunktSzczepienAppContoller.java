@@ -9,9 +9,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import edu.ib.structures.Permit;
-import edu.ib.structures.Tester;
-import edu.ib.structures.VaccineRecord;
+import edu.ib.structures.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -20,10 +18,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 public class PunktSzczepienAppContoller {
@@ -52,6 +48,17 @@ public class PunktSzczepienAppContoller {
 
     @FXML
     private ComboBox<?> preparatComboBox;
+    @FXML
+    private TableColumn<VaccineRecord, String> lastName;
+
+    @FXML
+    private TableColumn<VaccineRecord, String> pesel;
+
+    @FXML
+    private TableColumn<VaccineRecord, Boolean> Finalizaion;
+
+    @FXML
+    private TableColumn<VaccineRecord, LocalDate> date;
 
     @FXML
     private TableView<VaccineRecord> tabelaTableView;
@@ -104,6 +111,10 @@ public class PunktSzczepienAppContoller {
 
 
         ObservableList<VaccineRecord> list = FXCollections.observableArrayList();
+        pesel.setCellValueFactory(new PropertyValueFactory<>("pesel"));
+        Finalizaion.setCellValueFactory(new PropertyValueFactory<>("realization"));
+        date.setCellValueFactory(new PropertyValueFactory<>("date"));
+        lastName.setCellValueFactory(new PropertyValueFactory<>("nazwisko"));
         for (ArrayList<String> record: Tester.dataBaseInfo("select * from `widok_szczepienia_do_realizacji`;")) {
             int year = Integer.parseInt(record.get(1).split(" ")[0].split("-")[0]);
             int month = Integer.parseInt(record.get(1).split(" ")[0].split("-")[1]);
@@ -122,14 +133,22 @@ public class PunktSzczepienAppContoller {
     void zmienNaWykonane(ActionEvent event) throws SQLException {
 
         String id = idText.getText(); // pobieram id
-        Tester.callProcedure("Call zatwierdzenie_szczepienia("+id+");");    // zatwierdzam w bazie danych
+        Tester.callProcedure("Call zatwierdzenie_szczepienia('"+id+"');");    // zatwierdzam w bazie danych
         // aktualizowane danych w tabeli
+        tabelaTableView.getItems().clear();
         ObservableList<VaccineRecord> list = FXCollections.observableArrayList();
+        pesel.setCellValueFactory(new PropertyValueFactory<>("pesel"));
+        Finalizaion.setCellValueFactory(new PropertyValueFactory<>("realization"));
+        date.setCellValueFactory(new PropertyValueFactory<>("date"));
+        lastName.setCellValueFactory(new PropertyValueFactory<>("nazwisko"));
         for (ArrayList<String> record: Tester.dataBaseInfo("select * `from widok_szczepienia_do_realizacji`")) {
-            record.get(0);
+            int year = Integer.parseInt(record.get(1).split(" ")[0].split("-")[0]);
+            int month = Integer.parseInt(record.get(1).split(" ")[0].split("-")[1]);
+            int day = Integer.parseInt(record.get(1).split(" ")[0].split("-")[2]);
+
             list.add(new VaccineRecord(
                     Boolean.parseBoolean(record.get(0)), //wykonanie
-                    LocalDate.parse(record.get(1)),     // data
+                    LocalDate.of(year,month,day),     // data
                     Long.parseLong(record.get(2)),    // pesel
                     record.get(3)));                    // nazwisko
         }
