@@ -104,7 +104,7 @@ public class PatientSheetController {
             int year = Integer.parseInt(date.split("-")[0]);
             int month = Integer.parseInt(date.split("-")[1]);
             int day = Integer.parseInt(date.split("-")[2]);
-            list.add(new PatientsVaccine(Vaccine.valueOf(result.get(2).replace(" ", "_")), result.get(4).equals("true"),
+            list.add(new PatientsVaccine(Vaccine.valueOf(result.get(2).replace(" ", "_")), result.get(4).equals("1"),
                     LocalDate.of(year,month,day)));
         }
         table.setItems(list);

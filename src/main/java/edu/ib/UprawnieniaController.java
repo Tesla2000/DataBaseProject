@@ -64,7 +64,6 @@ public class UprawnieniaController {
         String pierwszy = peselPierwszyTextField.getText();
         String drugi = peselDwaTextField.getText();
         Tester.callProcedure("call dodawanie_uprawnien('"+pierwszy+"','"+drugi+"');");
-
         Parent root= FXMLLoader.load(getClass().getResource("/fxml/punktSzczepienApp.fxml"));
         stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
