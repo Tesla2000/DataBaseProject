@@ -10,11 +10,11 @@ public class Patient {
     private String phoneNumber = null;  // May begin with zero
     private String password = null;
     private ArrayList<Vaccine> vaccines = new ArrayList<>();
-    private Gender gender;
+    private final Gender gender;
     private final ArrayList<Patient> permissions = new ArrayList<>();
-    private int yearOfBirth;
-    private int monthOfBirth;
-    private int dayOfBirth;
+    private final int yearOfBirth;
+    private final int monthOfBirth;
+    private final int dayOfBirth;
 
     public Patient(String id) {
         this.id = id;

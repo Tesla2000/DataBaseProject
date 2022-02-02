@@ -48,14 +48,18 @@ public class DodawaniePreparatuController {
 
     @FXML
     void zatwierdzenie_dodania(ActionEvent event) throws SQLException, IOException {
-
-        Boolean czyTylkoDlaKobiet = tylkoKobiety.isSelected();
+        int czyTylkoDlaKobiet;
+        if (tylkoKobiety.isSelected()) czyTylkoDlaKobiet = 1;
+        else czyTylkoDlaKobiet = 0;
         String min = wiekMin.getText();
         String max = wiekMax.getText();
         String nazwaPreparatu = nazwa.getText();
+        if (min.equals("")) min = "null";
+        if (max.equals("")) max = "null";
 
-
-        Tester.callProcedure("Call dodawanie_szczepien('"+nazwaPreparatu+"',"+min+","+max+","+czyTylkoDlaKobiet+");");
+        String command = "Call dodawanie_szczepien('"+nazwaPreparatu+"',"+min+","+max+","+czyTylkoDlaKobiet+");";
+        System.out.println(command);
+        Tester.callProcedure(command);
         Parent root= FXMLLoader.load(getClass().getResource("/fxml/punktSzczepienApp.fxml"));
         stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);

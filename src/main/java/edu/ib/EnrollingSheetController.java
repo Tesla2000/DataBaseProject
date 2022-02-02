@@ -71,7 +71,14 @@ public class EnrollingSheetController {
         table.getItems().clear();
         String pesel = enrolledID.getText();
         int n = 0;
-        Patient patient = new Patient(pesel);
+        Patient patient;
+        try {
+            patient = new Patient(pesel);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            return;
+        }
+
         ArrayList<ArrayList<String>> results = Tester.dataBaseInfo("select * from widok_dostepne_szczepienia;");
         vaccine.setCellValueFactory(new PropertyValueFactory<FreeDate, Vaccine>("vaccine"));
         date.setCellValueFactory(new PropertyValueFactory<FreeDate, LocalDateTime>("date"));
@@ -82,25 +89,31 @@ public class EnrollingSheetController {
             int month = Integer.parseInt(date.split("-")[1]);
             int day = Integer.parseInt(date.split("-")[2]);
             int age = patient.getAgeAtVaccination(LocalDate.of(year, month, day));
-            if ((result.get(4).equals("null") || age <= Integer.parseInt(result.get(4))) &&
-                    (result.get(3).equals("null") || age >= Integer.parseInt(result.get(3)))){
-                ArrayList<ArrayList<String>> vaccinesTaken = Tester.dataBaseInfo("select Data from widok_szczepien " +
-                        "where PESEL like " + pesel +" and Rodzaj_preparatu like '" + result.get(1) +
-                        "' order by Data desc limit 1;");
-                String lastTimeOther = Tester.dataBaseInfo("select Data from widok_szczepien " +
-                        "where PESEL like " + pesel + " order by Data desc limit 1;").get(0).get(0).split(" ")[0];
-                if (vaccinesTaken.size() == 0)
+            if ((result.get(4).equals("null") || result.get(4).equals("brak") || age <= Integer.parseInt(result.get(4))) &&
+                    (result.get(3).equals("null") || result.get(3).equals("brak") || age >= Integer.parseInt(result.get(3)))){
+                String command = "select Data from widok_szczepien " +
+                        "where PESEL like " + pesel +" and Rodzaj_preparatu like '" + result.get(1) + "' and " +
+                        "(select count(*) from uprawnienia where zapisywani_pesel like '"+pesel+"' and zapisujacy_pesel like '"+login+"') = 1 " +
+                        " order by Data desc limit 1;";
+                ArrayList<ArrayList<String>> vaccinesTaken = Tester.dataBaseInfo(command);
+
+                ArrayList<ArrayList<String>> lastTime = Tester.dataBaseInfo("select Data from widok_szczepien " +
+                        "where PESEL like " + pesel + " order by Data desc limit 1;");
+                if (lastTime.size() == 0)
                 {
                     date = result.get(5).split(" ")[1];
+
                     int hour = Integer.parseInt(date.split(":")[0]);
                     int minute = Integer.parseInt(date.split(":")[1]);
                     n++;
                     list.add(new FreeDate(LocalDateTime.of(year,month,day,hour,minute),
-                            Vaccine.valueOf(result.get(1)), n));
+                            Vaccine.valueOf(result.get(1).replace(" ", "_")), n));
                 }
                 else{
-                    String lastTimeTaken = vaccinesTaken.get(0).get(0).split(" ")[0];
-
+                    String lastTimeTaken;
+                    if (vaccinesTaken.size() != 0) lastTimeTaken = vaccinesTaken.get(0).get(0).split(" ")[0];
+                    else lastTimeTaken = "1000-12-31";
+                    String lastTimeOther = lastTime.get(0).get(0).split(" ")[0];
                     if (Math.abs(ChronoUnit.DAYS.between(LocalDate.of(Integer.parseInt(lastTimeTaken.split("-")[0]),
                             Integer.parseInt(lastTimeTaken.split("-")[1]),
                             Integer.parseInt(lastTimeTaken.split("-")[2])), LocalDate.of(year, month, day))) > 365
@@ -149,25 +162,33 @@ public class EnrollingSheetController {
             int month = Integer.parseInt(date.split("-")[1]);
             int day = Integer.parseInt(date.split("-")[2]);
             int age = patient.getAgeAtVaccination(LocalDate.of(year, month, day));
-            if ((result.get(4).equals("null") || age <= Integer.parseInt(result.get(4))) &&
-                    (result.get(3).equals("null") || age >= Integer.parseInt(result.get(3)))){
+            if ((result.get(4).equals("null") || result.get(4).equals("brak") || age <= Integer.parseInt(result.get(4))) &&
+                    (result.get(3).equals("null") || result.get(3).equals("brak") || age >= Integer.parseInt(result.get(3)))){
                 ArrayList<ArrayList<String>> vaccinesTaken = Tester.dataBaseInfo("select Data from widok_szczepien " +
                         "where PESEL like " + pesel +" and Rodzaj_preparatu like '" + result.get(1) +
                         "' order by Data desc limit 1;");
-                if (vaccinesTaken.size() == 0)
+                ArrayList<ArrayList<String>> lastTime = Tester.dataBaseInfo("select Data from widok_szczepien " +
+                        "where PESEL like " + pesel + " order by Data desc limit 1;");
+                if (lastTime.size() == 0)
                 {
                     date = result.get(5).split(" ")[1];
                     int hour = Integer.parseInt(date.split(":")[0]);
                     int minute = Integer.parseInt(date.split(":")[1]);
                     n++;
                     list.add(new FreeDate(LocalDateTime.of(year,month,day,hour,minute),
-                            Vaccine.valueOf(result.get(1)), n));
+                            Vaccine.valueOf(result.get(1).replace(" ", "_")), n));
                 }
                 else{
-                    String lastTimeTaken = vaccinesTaken.get(0).get(0);
-                    if (ChronoUnit.DAYS.between(LocalDate.of(Integer.parseInt(lastTimeTaken.split("-")[0]),
+                    String lastTimeTaken;
+                    if (vaccinesTaken.size() != 0) lastTimeTaken = vaccinesTaken.get(0).get(0).split(" ")[0];
+                    else lastTimeTaken = "1000-12-31";
+                    String lastTimeOther = lastTime.get(0).get(0).split(" ")[0];
+                    if (Math.abs(ChronoUnit.DAYS.between(LocalDate.of(Integer.parseInt(lastTimeTaken.split("-")[0]),
                             Integer.parseInt(lastTimeTaken.split("-")[1]),
-                            Integer.parseInt(lastTimeTaken.split("-")[2])), LocalDate.of(year, month, day)) < 366){
+                            Integer.parseInt(lastTimeTaken.split("-")[2])), LocalDate.of(year, month, day))) > 365
+                            && Math.abs(ChronoUnit.DAYS.between(LocalDate.of(Integer.parseInt(lastTimeOther.split("-")[0]),
+                            Integer.parseInt(lastTimeOther.split("-")[1]),
+                            Integer.parseInt(lastTimeOther.split("-")[2])), LocalDate.of(year, month, day))) > 21){
                         date = result.get(5).split(" ")[1];
                         int hour = Integer.parseInt(date.split(":")[0]);
                         int minute = Integer.parseInt(date.split(":")[1]);
@@ -231,7 +252,7 @@ public class EnrollingSheetController {
             int minute = Integer.parseInt(date.split(":")[1]);
             n++;
             list.add(new FreeDate(LocalDateTime.of(year,month,day,hour,minute),
-                    Vaccine.valueOf(result.get(1)), n));
+                    Vaccine.valueOf(result.get(1).replace(" ", "_")), n));
 
             }
         table.setItems(list);

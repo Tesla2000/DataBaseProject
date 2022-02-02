@@ -69,7 +69,7 @@ public class PatientSheetController {
     void unsubscribeAction(ActionEvent event) throws SQLException {
         String vaccine = unsubscribeField.getText();
         String command = "call usuwanie_szczepienia_pacjent((select id from widok_szczepien where " +
-                "realizacja = 0 and PESEL like '"+login+"' and Rodzaj_preparatu like '"+vaccine+"'));";
+                "realizacja = 0 and PESEL like '"+login+"' and Rodzaj_preparatu like '"+vaccine.replace("_"," ")+"'));";
         System.out.println(command);
         Tester.callProcedure(command);
     }
@@ -99,7 +99,7 @@ public class PatientSheetController {
             int year = Integer.parseInt(date.split("-")[0]);
             int month = Integer.parseInt(date.split("-")[1]);
             int day = Integer.parseInt(date.split("-")[2]);
-            list.add(new PatientsVaccine(Vaccine.valueOf(result.get(2)), result.get(4).equals("true"),
+            list.add(new PatientsVaccine(Vaccine.valueOf(result.get(2).replace(" ", "_")), result.get(4).equals("true"),
                     LocalDate.of(year,month,day)));
         }
         table.setItems(list);

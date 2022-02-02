@@ -1,5 +1,7 @@
 package edu.ib.structures;
 
 public enum Vaccine {
-    Moderna
+    Moderna,
+    Cervarix,
+    Prevenar_13
 }

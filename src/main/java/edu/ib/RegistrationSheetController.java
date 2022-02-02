@@ -63,8 +63,8 @@ public class RegistrationSheetController {
             try {
                 new Patient(peselField.getText());
                 Long.valueOf(peselField.getText());
-                if (Tester.dataBaseInfo("select count(*) from pacjenci_i_hasla where PESEL like " + peselField.getText()
-                        + ";").get(0).get(0).equals("1"))
+                if (Tester.dataBaseInfo("select count(*) from pacjenci_i_hasla where PESEL like '" + peselField.getText()
+                        + "';").get(0).get(0).equals("1"))
                     resp.setText("Ten numer PESEL jest już zarejestrowany w bazie");
                 else {
                     if (!passwordField1.getText().equals(passwordField2.getText()))
@@ -80,7 +80,8 @@ public class RegistrationSheetController {
                             if (pass1.equals(""))
                                 resp.setText("Pole hasło nie może pozostac puste");
                             else{
-                                Tester.callProcedure("call rejestracja_zapisujacy("+peselField.getText()+", '"+
+                                System.out.println(peselField.getText());
+                                Tester.callProcedure("call rejestracja_zapisujacy('"+peselField.getText()+"', '"+
                                         name +"', '" + pass1 + "', "+ phone +");");
                                 Parent root= FXMLLoader.load(getClass().getResource("/fxml/loggingSheet.fxml"));
                                 stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
@@ -92,7 +93,6 @@ public class RegistrationSheetController {
                     }
                 }
             }catch (Exception e){
-                System.out.println(e.getMessage());
                 resp.setText("Pesel nie jest poprawny");
             }
 
