@@ -4,12 +4,14 @@ import java.time.LocalDate;
 
 public class VaccineRecord {
     private Boolean realization;
+    private int id;
     private LocalDate date;
     private long pesel;
     private String nazwisko;
 
-    public VaccineRecord(Boolean realization, LocalDate date, long pesel, String nazwisko) {
+    public VaccineRecord(Boolean realization, int id, LocalDate date, long pesel, String nazwisko) {
         this.realization = realization;
+        this.id = id;
         this.date = date;
         this.pesel = pesel;
         this.nazwisko = nazwisko;

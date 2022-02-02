@@ -29,6 +29,10 @@ public class PunktSzczepienAppContoller {
     private Parent root;
 
     @FXML
+    private TableColumn<VaccineRecord, Integer> kolumnaId;
+
+
+    @FXML
     private ResourceBundle resources;
 
     @FXML
@@ -78,8 +82,8 @@ public class PunktSzczepienAppContoller {
 
     @FXML
     void UprawnieniaAction(ActionEvent event) throws IOException {
-        Parent root= FXMLLoader.load(getClass().getResource("/fxml/uprawnienia.fxml"));
-        stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/uprawnienia.fxml"));
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
@@ -87,14 +91,13 @@ public class PunktSzczepienAppContoller {
 
     @FXML
     void dodajPreparat(ActionEvent event) throws IOException {
-        Parent root= FXMLLoader.load(getClass().getResource("/fxml/dodawaniePreparatu.fxml"));
-        stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/dodawaniePreparatu.fxml"));
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
 
     }
-
 
 
     @FXML
@@ -115,14 +118,15 @@ public class PunktSzczepienAppContoller {
         Finalizaion.setCellValueFactory(new PropertyValueFactory<>("realization"));
         date.setCellValueFactory(new PropertyValueFactory<>("date"));
         lastName.setCellValueFactory(new PropertyValueFactory<>("nazwisko"));
-        for (ArrayList<String> record: Tester.dataBaseInfo("select * from `widok_szczepienia_do_realizacji`;")) {
-            int year = Integer.parseInt(record.get(1).split(" ")[0].split("-")[0]);
-            int month = Integer.parseInt(record.get(1).split(" ")[0].split("-")[1]);
-            int day = Integer.parseInt(record.get(1).split(" ")[0].split("-")[2]);
+        for (ArrayList<String> record : Tester.dataBaseInfo("select * from `widok_szczepienia_do_realizacji` where REALIZACJA = 0;")) {
+            int year = Integer.parseInt(record.get(2).split(" ")[0].split("-")[0]);
+            int month = Integer.parseInt(record.get(2).split(" ")[0].split("-")[1]);
+            int day = Integer.parseInt(record.get(2).split(" ")[0].split("-")[2]);
 
             list.add(new VaccineRecord(
                     Boolean.parseBoolean(record.get(0)), //wykonanie
-                    LocalDate.of(year,month,day),     // data
+                    Integer.parseInt(record.get(1)),    //id
+                    LocalDate.of(year, month, day),     // data
                     Long.parseLong(record.get(2)),    // pesel
                     record.get(3)));                    // nazwisko
         }
@@ -133,7 +137,7 @@ public class PunktSzczepienAppContoller {
     void zmienNaWykonane(ActionEvent event) throws SQLException {
 
         String id = idText.getText(); // pobieram id
-        Tester.callProcedure("Call zatwierdzenie_szczepienia('"+id+"');");    // zatwierdzam w bazie danych
+        Tester.callProcedure("Call zatwierdzenie_szczepienia('" + id + "');");    // zatwierdzam w bazie danych
         // aktualizowane danych w tabeli
         tabelaTableView.getItems().clear();
         ObservableList<VaccineRecord> list = FXCollections.observableArrayList();
@@ -141,19 +145,19 @@ public class PunktSzczepienAppContoller {
         Finalizaion.setCellValueFactory(new PropertyValueFactory<>("realization"));
         date.setCellValueFactory(new PropertyValueFactory<>("date"));
         lastName.setCellValueFactory(new PropertyValueFactory<>("nazwisko"));
-        for (ArrayList<String> record: Tester.dataBaseInfo("select * `from widok_szczepienia_do_realizacji`")) {
-            int year = Integer.parseInt(record.get(1).split(" ")[0].split("-")[0]);
-            int month = Integer.parseInt(record.get(1).split(" ")[0].split("-")[1]);
-            int day = Integer.parseInt(record.get(1).split(" ")[0].split("-")[2]);
+        for (ArrayList<String> record : Tester.dataBaseInfo("select * from `widok_szczepienia_do_realizacji` where REALIZACJA = 0;")) {
+            int year = Integer.parseInt(record.get(2).split(" ")[0].split("-")[0]);
+            int month = Integer.parseInt(record.get(2).split(" ")[0].split("-")[1]);
+            int day = Integer.parseInt(record.get(2).split(" ")[0].split("-")[2]);
 
             list.add(new VaccineRecord(
                     Boolean.parseBoolean(record.get(0)), //wykonanie
-                    LocalDate.of(year,month,day),     // data
+                    Integer.parseInt(record.get(1)),    //id
+                    LocalDate.of(year, month, day),     // data
                     Long.parseLong(record.get(2)),    // pesel
                     record.get(3)));                    // nazwisko
         }
         tabelaTableView.setItems(list);
-
 
     }
 
@@ -167,18 +171,15 @@ public class PunktSzczepienAppContoller {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         LocalDateTime termin = LocalDateTime.parse(terminTextField.getText(), formatter);
 
-        for (int i = 0; i < iloscMiejsc; i++){
+        for (int i = 0; i < iloscMiejsc; i++) {
             // jak jest kilka terminów to dodaję w odstępie 15 min
-            System.out.println(termin.plusMinutes(i*15));
-            Tester.callProcedure("Call dodawanie_godzin('"+termin.plusMinutes(i*15).
-                    toString().replace("T", " ")+"',"+id+");");
+            System.out.println(termin.plusMinutes(i * 15));
+            Tester.callProcedure("Call dodawanie_godzin('" + termin.plusMinutes(i * 15).
+                    toString().replace("T", " ") + "'," + id + ");");
         }
 
 
-
     }
-
-
 
 
 }
