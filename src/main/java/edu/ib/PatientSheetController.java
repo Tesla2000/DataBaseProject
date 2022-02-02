@@ -68,10 +68,15 @@ public class PatientSheetController {
     @FXML
     void unsubscribeAction(ActionEvent event) throws SQLException {
         String vaccine = unsubscribeField.getText();
-        String command = "call usuwanie_szczepienia_pacjent((select id from widok_szczepien where " +
-                "realizacja = 0 and PESEL like '"+login+"' and Rodzaj_preparatu like '"+vaccine.replace("_"," ")+"'));";
-        System.out.println(command);
-        Tester.callProcedure(command);
+        String permit = "select count(*) from uprawnienia where '"+login+"' like zapisywani_pesel " +
+                "and '"+login+"' like zapisujacy_pesel";
+        if (Tester.dataBaseInfo(permit).get(0).get(0).equals("1")){
+            String command = "call usuwanie_szczepienia_pacjent((select id from widok_szczepien where " +
+                    "realizacja = 0 and PESEL like '"+login+"' and Rodzaj_preparatu like '"+vaccine.replace("_"," ")+"'));";
+            System.out.println(command);
+            Tester.callProcedure(command);
+        }
+
     }
 
 
