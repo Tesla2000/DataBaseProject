@@ -118,6 +118,7 @@ public class PunktSzczepienAppContoller {
         Finalizaion.setCellValueFactory(new PropertyValueFactory<>("realization"));
         date.setCellValueFactory(new PropertyValueFactory<>("date"));
         lastName.setCellValueFactory(new PropertyValueFactory<>("nazwisko"));
+        kolumnaId.setCellValueFactory(new PropertyValueFactory<>("id"));
         for (ArrayList<String> record : Tester.dataBaseInfo("select * from `widok_szczepienia_do_realizacji` where REALIZACJA = 0;")) {
             int year = Integer.parseInt(record.get(2).split(" ")[0].split("-")[0]);
             int month = Integer.parseInt(record.get(2).split(" ")[0].split("-")[1]);
@@ -127,8 +128,8 @@ public class PunktSzczepienAppContoller {
                     Boolean.parseBoolean(record.get(0)), //wykonanie
                     Integer.parseInt(record.get(1)),    //id
                     LocalDate.of(year, month, day),     // data
-                    Long.parseLong(record.get(2)),    // pesel
-                    record.get(3)));                    // nazwisko
+                    Long.parseLong(record.get(3)),    // pesel
+                    record.get(4)));                    // nazwisko
         }
         tabelaTableView.setItems(list);
     }
@@ -145,6 +146,7 @@ public class PunktSzczepienAppContoller {
         Finalizaion.setCellValueFactory(new PropertyValueFactory<>("realization"));
         date.setCellValueFactory(new PropertyValueFactory<>("date"));
         lastName.setCellValueFactory(new PropertyValueFactory<>("nazwisko"));
+        kolumnaId.setCellValueFactory(new PropertyValueFactory<>("id"));
         for (ArrayList<String> record : Tester.dataBaseInfo("select * from `widok_szczepienia_do_realizacji` where REALIZACJA = 0;")) {
             int year = Integer.parseInt(record.get(2).split(" ")[0].split("-")[0]);
             int month = Integer.parseInt(record.get(2).split(" ")[0].split("-")[1]);
@@ -154,8 +156,8 @@ public class PunktSzczepienAppContoller {
                     Boolean.parseBoolean(record.get(0)), //wykonanie
                     Integer.parseInt(record.get(1)),    //id
                     LocalDate.of(year, month, day),     // data
-                    Long.parseLong(record.get(2)),    // pesel
-                    record.get(3)));                    // nazwisko
+                    Long.parseLong(record.get(3)),    // pesel
+                    record.get(4)));                    // nazwisko
         }
         tabelaTableView.setItems(list);
 

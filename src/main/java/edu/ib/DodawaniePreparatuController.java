@@ -78,10 +78,6 @@ public class DodawaniePreparatuController {
         assert zatwierdzam != null : "fx:id=\"zatwierdzam\" was not injected: check your FXML file 'dodawaniePreparatu.fxml'.";
 
     }
-
-
-
-
 }
 
 

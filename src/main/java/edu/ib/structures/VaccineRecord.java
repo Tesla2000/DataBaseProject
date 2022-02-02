@@ -32,4 +32,8 @@ public class VaccineRecord {
     public String getNazwisko() {
         return nazwisko;
     }
+
+    public int getId() {
+        return id;
+    }
 }
