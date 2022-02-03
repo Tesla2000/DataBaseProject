@@ -51,8 +51,6 @@ public class PunktSzczepienAppContoller {
     private Button plusButton;
 
     @FXML
-    private ComboBox<?> preparatComboBox;
-    @FXML
     private TableColumn<VaccineRecord, String> lastName;
 
     @FXML
@@ -102,15 +100,24 @@ public class PunktSzczepienAppContoller {
 
     @FXML
     void initialize() throws SQLException {
+        assert Finalizaion != null : "fx:id=\"Finalizaion\" was not injected: check your FXML file 'punktSzczepienApp.fxml'.";
+        assert Szczepionki != null : "fx:id=\"Szczepionki\" was not injected: check your FXML file 'punktSzczepienApp.fxml'.";
+        assert date != null : "fx:id=\"date\" was not injected: check your FXML file 'punktSzczepienApp.fxml'.";
         assert dodajUprawnieniaButton != null : "fx:id=\"dodajUprawnieniaButton\" was not injected: check your FXML file 'punktSzczepienApp.fxml'.";
+        assert idPreparatu != null : "fx:id=\"idPreparatu\" was not injected: check your FXML file 'punktSzczepienApp.fxml'.";
         assert idText != null : "fx:id=\"idText\" was not injected: check your FXML file 'punktSzczepienApp.fxml'.";
+        assert id_szczepionki != null : "fx:id=\"id_szczepionki\" was not injected: check your FXML file 'punktSzczepienApp.fxml'.";
         assert iloscMiejscTextField != null : "fx:id=\"iloscMiejscTextField\" was not injected: check your FXML file 'punktSzczepienApp.fxml'.";
+        assert kolumnaId != null : "fx:id=\"kolumnaId\" was not injected: check your FXML file 'punktSzczepienApp.fxml'.";
+        assert lastName != null : "fx:id=\"lastName\" was not injected: check your FXML file 'punktSzczepienApp.fxml'.";
+        assert nazwa_szczepionki != null : "fx:id=\"nazwa_szczepionki\" was not injected: check your FXML file 'punktSzczepienApp.fxml'.";
+        assert pesel != null : "fx:id=\"pesel\" was not injected: check your FXML file 'punktSzczepienApp.fxml'.";
         assert plusButton != null : "fx:id=\"plusButton\" was not injected: check your FXML file 'punktSzczepienApp.fxml'.";
-        assert preparatComboBox != null : "fx:id=\"preparatComboBox\" was not injected: check your FXML file 'punktSzczepienApp.fxml'.";
         assert tabelaTableView != null : "fx:id=\"tabelaTableView\" was not injected: check your FXML file 'punktSzczepienApp.fxml'.";
-        assert terminTextField != null : "fx:id=\"terminDoTextField\" was not injected: check your FXML file 'punktSzczepienApp.fxml'.";
+        assert terminTextField != null : "fx:id=\"terminTextField\" was not injected: check your FXML file 'punktSzczepienApp.fxml'.";
         assert wykonanoButton != null : "fx:id=\"wykonanoButton\" was not injected: check your FXML file 'punktSzczepienApp.fxml'.";
         assert zatwierdzButton != null : "fx:id=\"zatwierdzButton\" was not injected: check your FXML file 'punktSzczepienApp.fxml'.";
+
 
 
         ObservableList<VaccineRecord> list = FXCollections.observableArrayList();
@@ -132,6 +139,23 @@ public class PunktSzczepienAppContoller {
                     record.get(4)));                    // nazwisko
         }
         tabelaTableView.setItems(list);
+
+
+        ObservableList<Szczepionka> lista = FXCollections.observableArrayList();
+        nazwa_szczepionki.setCellValueFactory(new PropertyValueFactory<>("nazwa"));
+        id_szczepionki.setCellValueFactory(new PropertyValueFactory<>("id"));
+        for (ArrayList<String> record : Tester.dataBaseInfo("select Rodzaj_preparatu, `id` from Typy_szczepien;")){
+            lista.add(new Szczepionka(
+                    record.get(0),
+                  Integer.parseInt(record.get(1))));
+
+        }
+
+        Szczepionki.setItems(lista);
+
+
+
+
     }
 
     @FXML
@@ -182,6 +206,22 @@ public class PunktSzczepienAppContoller {
 
 
     }
+
+
+
+    @FXML
+    private TableView<Szczepionka> Szczepionki;
+
+    @FXML
+    private TableColumn<Szczepionka, Integer> id_szczepionki;
+
+    @FXML
+    private TableColumn<Szczepionka, String> nazwa_szczepionki;
+
+
+
+
+
 
 
 }
