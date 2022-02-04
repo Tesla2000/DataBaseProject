@@ -80,14 +80,32 @@ public class RegistrationSheetController {
                             if (pass1.equals(""))
                                 resp.setText("Pole hasło nie może pozostac puste");
                             else{
-                                System.out.println(peselField.getText());
-                                Tester.callProcedure("call rejestracja_zapisujacy('"+peselField.getText()+"', '"+
-                                        name +"', '" + pass1 + "', "+ phone +");");
-                                Parent root= FXMLLoader.load(getClass().getResource("/fxml/loggingSheet.fxml"));
-                                stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
-                                scene = new Scene(root);
-                                stage.setScene(scene);
-                                stage.show();
+                                if (passwordField1.getText().replaceAll("[^a-zA-Z0-9]","").equals(passwordField1.getText())){
+                                    if (!passwordField1.getText().replaceAll("[A-Z]","").equals(passwordField1.getText())){
+                                        if (!passwordField1.getText().replaceAll("[0-9]","").equals(passwordField1.getText()))
+                                        {
+                                            if (passwordField1.getText().length() >= 8 && passwordField1.getText().length() <= 22)
+                                            {
+                                                System.out.println(peselField.getText());
+                                                Tester.callProcedure("call rejestracja_zapisujacy('"+peselField.getText()+"', '"+
+                                                        name +"', '" + pass1 + "', "+ phone +");");
+                                                Parent root= FXMLLoader.load(getClass().getResource("/fxml/loggingSheet.fxml"));
+                                                stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+                                                scene = new Scene(root);
+                                                stage.setScene(scene);
+                                                stage.show();
+                                            } else{
+                                                resp.setText("Hasło musi mieć długość od 8 do 22 znaków");
+                                            }
+                                        } else{
+                                            resp.setText("Hasło musi zawierać przynajmniej jedną cyfrę");
+                                        }
+                                    } else {
+                                        resp.setText("Hasło musi zawierać przynajmniej jedną wielką literę");
+                                    }
+                                } else {
+                                    resp.setText("Hasło może zawirać tylko cyfry, małe i duże litery");
+                                }
                             }
                         }
                     }

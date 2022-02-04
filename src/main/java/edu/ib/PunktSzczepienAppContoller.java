@@ -66,6 +66,12 @@ public class PunktSzczepienAppContoller {
     private TableView<VaccineRecord> tabelaTableView;
 
     @FXML
+    private TableColumn<Szczepionka, Integer> MinAgeColumn;
+
+    @FXML
+    private TableColumn<Szczepionka, Integer> maxAgeColumn;
+
+    @FXML
     private TextField terminTextField;
 
     @FXML
@@ -144,10 +150,15 @@ public class PunktSzczepienAppContoller {
         ObservableList<Szczepionka> lista = FXCollections.observableArrayList();
         nazwa_szczepionki.setCellValueFactory(new PropertyValueFactory<>("nazwa"));
         id_szczepionki.setCellValueFactory(new PropertyValueFactory<>("id"));
-        for (ArrayList<String> record : Tester.dataBaseInfo("select Rodzaj_preparatu, `id` from Typy_szczepien;")){
+        MinAgeColumn.setCellValueFactory(new PropertyValueFactory<>("minAge"));
+        maxAgeColumn.setCellValueFactory(new PropertyValueFactory<>("maxAge"));
+        for (ArrayList<String> record : Tester.dataBaseInfo("select Rodzaj_preparatu, `id`, Wiek_minimalny, " +
+                "Wiek_maksymalny from Typy_szczepien;")){
             lista.add(new Szczepionka(
                     record.get(0),
-                  Integer.parseInt(record.get(1))));
+                  Integer.parseInt(record.get(1)),
+                    record.get(2).replace("0","brak"),
+                    record.get(3)));
 
         }
 
