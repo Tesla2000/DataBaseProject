@@ -120,8 +120,22 @@ public class PunktSzczepienAppContoller {
         assert wykonanoButton != null : "fx:id=\"wykonanoButton\" was not injected: check your FXML file 'punktSzczepienApp.fxml'.";
         assert zatwierdzButton != null : "fx:id=\"zatwierdzButton\" was not injected: check your FXML file 'punktSzczepienApp.fxml'.";
 
+        displayRealization();
 
 
+        ObservableList<Szczepionka> lista = FXCollections.observableArrayList();
+        nazwa_szczepionki.setCellValueFactory(new PropertyValueFactory<>("nazwa"));
+//        id_szczepionki.setCellValueFactory(new PropertyValueFactory<>("id"));
+        for (ArrayList<String> record : Tester.dataBaseInfo("select Rodzaj_preparatu, `id` from Typy_szczepien;")){
+            lista.add(new Szczepionka(
+                    record.get(0)));
+
+        }
+
+        Szczepionki.setItems(lista);
+    }
+
+    public void displayRealization() throws SQLException {
         ObservableList<VaccineRecord> list = FXCollections.observableArrayList();
         pesel.setCellValueFactory(new PropertyValueFactory<>("pesel"));
         Finalizaion.setCellValueFactory(new PropertyValueFactory<>("realization"));
@@ -141,18 +155,6 @@ public class PunktSzczepienAppContoller {
                     record.get(4)));                    // nazwisko
         }
         tabelaTableView.setItems(list);
-
-
-        ObservableList<Szczepionka> lista = FXCollections.observableArrayList();
-        nazwa_szczepionki.setCellValueFactory(new PropertyValueFactory<>("nazwa"));
-//        id_szczepionki.setCellValueFactory(new PropertyValueFactory<>("id"));
-        for (ArrayList<String> record : Tester.dataBaseInfo("select Rodzaj_preparatu, `id` from Typy_szczepien;")){
-            lista.add(new Szczepionka(
-                    record.get(0)));
-
-        }
-
-        Szczepionki.setItems(lista);
     }
 
     @FXML
@@ -161,24 +163,7 @@ public class PunktSzczepienAppContoller {
         Tester.callProcedure("Call zatwierdzenie_szczepienia('" + id + "');");    // zatwierdzam w bazie danych
         // aktualizowane danych w tabeli
         tabelaTableView.getItems().clear();
-        ObservableList<VaccineRecord> list = FXCollections.observableArrayList();
-        pesel.setCellValueFactory(new PropertyValueFactory<>("pesel"));
-        Finalizaion.setCellValueFactory(new PropertyValueFactory<>("realization"));
-        date.setCellValueFactory(new PropertyValueFactory<>("date"));
-        lastName.setCellValueFactory(new PropertyValueFactory<>("nazwisko"));
-        for (ArrayList<String> record : Tester.dataBaseInfo("select * from `widok_szczepienia_do_realizacji` where REALIZACJA = 0;")) {
-            int year = Integer.parseInt(record.get(2).split(" ")[0].split("-")[0]);
-            int month = Integer.parseInt(record.get(2).split(" ")[0].split("-")[1]);
-            int day = Integer.parseInt(record.get(2).split(" ")[0].split("-")[2]);
-
-            list.add(new VaccineRecord(
-                    Boolean.parseBoolean(record.get(0)), //wykonanie
-                    Integer.parseInt(record.get(1)),    //id
-                    LocalDate.of(year, month, day),     // data
-                    Long.parseLong(record.get(2)),    // pesel
-                    record.get(3)));                    // nazwisko
-        }
-        tabelaTableView.setItems(list);
+        displayRealization();
 
     }
 

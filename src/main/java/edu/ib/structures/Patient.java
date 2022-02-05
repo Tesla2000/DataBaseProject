@@ -55,6 +55,10 @@ public class Patient {
         permissions.add(patient);
     }
 
+    public boolean isWoman(){
+        return gender.equals(Gender.Woman);
+    }
+
     public void revokePermission(Patient patient){
         permissions.remove(patient);
     }

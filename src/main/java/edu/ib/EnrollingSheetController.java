@@ -89,8 +89,9 @@ public class EnrollingSheetController {
             int month = Integer.parseInt(date.split("-")[1]);
             int day = Integer.parseInt(date.split("-")[2]);
             int age = patient.getAgeAtVaccination(LocalDate.of(year, month, day));
-            if ((result.get(4).equals("null") || result.get(4).equals("brak") || age <= Integer.parseInt(result.get(4))) &&
-                    (result.get(3).equals("null") || result.get(3).equals("brak") || age >= Integer.parseInt(result.get(3)))){
+            if ((result.get(4).equals("brak") || age <= Integer.parseInt(result.get(4))) &&
+                     (result.get(3).equals("brak") || age >= Integer.parseInt(result.get(3))) &&
+                    (result.get(2).equals("0") || patient.isWoman())){
                 String command = "select Data from widok_szczepien " +
                         "where PESEL like " + pesel +" and Rodzaj_preparatu like '" + result.get(1) + "' and " +
                         "(select count(*) from uprawnienia where zapisywani_pesel like '"+pesel+"' and zapisujacy_pesel like '"+login+"') = 1 " +
