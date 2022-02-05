@@ -4,10 +4,10 @@ import java.time.LocalDateTime;
 
 public class FreeDate {
     private LocalDateTime date;
-    private Vaccine vaccine;
+    private String vaccine;
     private Integer number;
 
-    public FreeDate(LocalDateTime date, Vaccine vaccine, Integer number) {
+    public FreeDate(LocalDateTime date, String vaccine, Integer number) {
         this.date = date;
         this.vaccine = vaccine;
         this.number = number;
@@ -17,7 +17,7 @@ public class FreeDate {
         return date;
     }
 
-    public Vaccine getVaccine() {
+    public String getVaccine() {
         return vaccine;
     }
 

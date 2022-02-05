@@ -7,6 +7,10 @@ public class Szczepionka {
     private String minAge;
     private String maxAge;
 
+    public Szczepionka(String nazwa) {
+        this.nazwa = nazwa;
+    }
+
     public Szczepionka(String nazwa, int id, String minAge, String maxAge) {
         this.nazwa = nazwa;
         this.id = id;

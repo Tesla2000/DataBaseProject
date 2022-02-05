@@ -3,17 +3,17 @@ package edu.ib.structures;
 import java.time.LocalDate;
 
 public class PatientsVaccine {
-    private Vaccine vaccine;
+    private String vaccine;
     private Boolean realization;
     private LocalDate date;
 
-    public PatientsVaccine(Vaccine vaccine, Boolean realization, LocalDate date) {
+    public PatientsVaccine(String vaccine, Boolean realization, LocalDate date) {
         this.vaccine = vaccine;
         this.realization = realization;
         this.date = date;
     }
 
-    public Vaccine getVaccine() {
+    public String getVaccine() {
         return vaccine;
     }
 

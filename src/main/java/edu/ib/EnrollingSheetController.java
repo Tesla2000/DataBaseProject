@@ -65,7 +65,7 @@ public class EnrollingSheetController {
     private TableView<FreeDate> table;
 
     @FXML
-    private TableColumn<FreeDate, Vaccine> vaccine;
+    private TableColumn<FreeDate, String> vaccine;
     @FXML
     void checkAction(ActionEvent event) throws SQLException {
         table.getItems().clear();
@@ -80,9 +80,9 @@ public class EnrollingSheetController {
         }
 
         ArrayList<ArrayList<String>> results = Tester.dataBaseInfo("select * from widok_dostepne_szczepienia;");
-        vaccine.setCellValueFactory(new PropertyValueFactory<FreeDate, Vaccine>("vaccine"));
-        date.setCellValueFactory(new PropertyValueFactory<FreeDate, LocalDateTime>("date"));
-        number.setCellValueFactory(new PropertyValueFactory<FreeDate, Integer>("number"));
+        vaccine.setCellValueFactory(new PropertyValueFactory<>("vaccine"));
+        date.setCellValueFactory(new PropertyValueFactory<>("date"));
+        number.setCellValueFactory(new PropertyValueFactory<>("number"));
         for (ArrayList<String> result: results){
             String date = result.get(5).split(" ")[0];
             int year = Integer.parseInt(date.split("-")[0]);
@@ -107,7 +107,7 @@ public class EnrollingSheetController {
                     int minute = Integer.parseInt(date.split(":")[1]);
                     n++;
                     list.add(new FreeDate(LocalDateTime.of(year,month,day,hour,minute),
-                            Vaccine.valueOf(result.get(1).replace(" ", "_")), n));
+                            result.get(1), n));
                 }
                 else{
                     String lastTimeTaken;
@@ -125,7 +125,7 @@ public class EnrollingSheetController {
                         int minute = Integer.parseInt(date.split(":")[1]);
                         n++;
                         list.add(new FreeDate(LocalDateTime.of(year,month,day,hour,minute),
-                                Vaccine.valueOf(result.get(1)), n));
+                                result.get(1), n));
 
                     }
                 }
@@ -153,9 +153,9 @@ public class EnrollingSheetController {
         int n = 0;
         Patient patient = new Patient(pesel);
         ArrayList<ArrayList<String>> results = Tester.dataBaseInfo("select * from widok_dostepne_szczepienia;");
-        vaccine.setCellValueFactory(new PropertyValueFactory<FreeDate, Vaccine>("vaccine"));
-        date.setCellValueFactory(new PropertyValueFactory<FreeDate, LocalDateTime>("date"));
-        number.setCellValueFactory(new PropertyValueFactory<FreeDate, Integer>("number"));
+        vaccine.setCellValueFactory(new PropertyValueFactory<>("vaccine"));
+        date.setCellValueFactory(new PropertyValueFactory<>("date"));
+        number.setCellValueFactory(new PropertyValueFactory<>("number"));
         for (ArrayList<String> result: results){
             String date = result.get(5).split(" ")[0];
             int year = Integer.parseInt(date.split("-")[0]);
@@ -176,7 +176,7 @@ public class EnrollingSheetController {
                     int minute = Integer.parseInt(date.split(":")[1]);
                     n++;
                     list.add(new FreeDate(LocalDateTime.of(year,month,day,hour,minute),
-                            Vaccine.valueOf(result.get(1).replace(" ", "_")), n));
+                            result.get(1), n));
                 }
                 else{
                     String lastTimeTaken;
@@ -194,7 +194,7 @@ public class EnrollingSheetController {
                         int minute = Integer.parseInt(date.split(":")[1]);
                         n++;
                         list.add(new FreeDate(LocalDateTime.of(year,month,day,hour,minute),
-                                Vaccine.valueOf(result.get(1)), n));
+                                result.get(1), n));
 
                     }
                 }
@@ -239,9 +239,9 @@ public class EnrollingSheetController {
         int n = 0;
         Patient patient = new Patient(login);
         ArrayList<ArrayList<String>> results = Tester.dataBaseInfo("select * from widok_dostepne_szczepienia;");
-        vaccine.setCellValueFactory(new PropertyValueFactory<FreeDate, Vaccine>("vaccine"));
-        date.setCellValueFactory(new PropertyValueFactory<FreeDate, LocalDateTime>("date"));
-        number.setCellValueFactory(new PropertyValueFactory<FreeDate, Integer>("number"));
+        vaccine.setCellValueFactory(new PropertyValueFactory<>("vaccine"));
+        date.setCellValueFactory(new PropertyValueFactory<>("date"));
+        number.setCellValueFactory(new PropertyValueFactory<>("number"));
         for (ArrayList<String> result: results){
             String date = result.get(5).split(" ")[0];
             int year = Integer.parseInt(date.split("-")[0]);
@@ -252,7 +252,7 @@ public class EnrollingSheetController {
             int minute = Integer.parseInt(date.split(":")[1]);
             n++;
             list.add(new FreeDate(LocalDateTime.of(year,month,day,hour,minute),
-                    Vaccine.valueOf(result.get(1).replace(" ", "_")), n));
+                    result.get(1), n));
 
             }
         table.setItems(list);
