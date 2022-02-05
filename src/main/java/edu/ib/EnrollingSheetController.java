@@ -218,7 +218,7 @@ public class EnrollingSheetController {
             }
         }
         table.getItems().clear();
-
+        displayDates(login);
     }
 
     @FXML

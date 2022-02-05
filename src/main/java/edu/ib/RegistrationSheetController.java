@@ -58,7 +58,7 @@ public class RegistrationSheetController {
     @FXML
     void RegisterAction(ActionEvent event) throws IOException, SQLException {
         if (peselField.getText().length() != 11)
-            resp.setText("Numer PESEL jest nieprawidłowy");
+            resp.setText("Numer PESEL jest nieprawidlowy");
         else{
             try {
                 new Patient(peselField.getText());
@@ -68,17 +68,17 @@ public class RegistrationSheetController {
                     resp.setText("Ten numer PESEL jest już zarejestrowany w bazie");
                 else {
                     if (!passwordField1.getText().equals(passwordField2.getText()))
-                        resp.setText("Podane hasła nie są ze sobą zgodne");
+                        resp.setText("Podane hasla nie sa ze soba zgodne");
                     else {
                         String name = nameField.getText();
                         String pass1 = passwordField1.getText();
                         String phone = phoneField.getText();
                         if (phone.equals("")) phone = null;
                         if (name.equals(""))
-                            resp.setText("Imię nie może pozostać puste");
+                            resp.setText("Imie nie moze pozostac puste");
                         else {
                             if (pass1.equals(""))
-                                resp.setText("Pole hasło nie może pozostac puste");
+                                resp.setText("Pole haslo nie moze pozostac puste");
                             else{
                                 if (passwordField1.getText().replaceAll("[^a-zA-Z0-9]","").equals(passwordField1.getText())){
                                     if (!passwordField1.getText().replaceAll("[A-Z]","").equals(passwordField1.getText())){
@@ -95,16 +95,16 @@ public class RegistrationSheetController {
                                                 stage.setScene(scene);
                                                 stage.show();
                                             } else{
-                                                resp.setText("Hasło musi mieć długość od 8 do 22 znaków");
+                                                resp.setText("Haslo musi miec dlugosc od 8 do 22 znakow");
                                             }
                                         } else{
-                                            resp.setText("Hasło musi zawierać przynajmniej jedną cyfrę");
+                                            resp.setText("Haslo musi zawierac przynajmniej jedna cyfre");
                                         }
                                     } else {
-                                        resp.setText("Hasło musi zawierać przynajmniej jedną wielką literę");
+                                        resp.setText("Haslo musi zawierac przynajmniej jedna wielka litere");
                                     }
                                 } else {
-                                    resp.setText("Hasło może zawirać tylko cyfry, małe i duże litery");
+                                    resp.setText("Haslo moze zawierac tylko cyfry, male i wielkie litery");
                                 }
                             }
                         }
