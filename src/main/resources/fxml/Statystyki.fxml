@@ -7,22 +7,21 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
-<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.ib.StatyctykiController">
    <children>
       <VBox prefHeight="400.0" prefWidth="180.0">
          <children>
-            <Button mnemonicParsing="false" text="sortowanie datą">
+            <Button fx:id="sortowanie_data" mnemonicParsing="false" onAction="#data_action" text="sortowanie datą">
                <VBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" text="sortowanie alfabetyczne">
+            <Button fx:id="sortowanie_alfabet" mnemonicParsing="false" onAction="#alfabet_action" text="sortowanie alfabetyczne">
                <VBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" text="wróć">
+            <Button fx:id="back" mnemonicParsing="false" onAction="#back_action" text="wróć">
                <VBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </VBox.margin>
@@ -31,11 +30,17 @@
       </VBox>
       <VBox prefHeight="400.0" prefWidth="424.0">
          <children>
-            <TableView prefHeight="403.0" prefWidth="422.0">
+            <TableView fx:id="tabela" prefHeight="403.0" prefWidth="422.0">
               <columns>
-                <TableColumn prefWidth="75.0" text="C1" />
-                <TableColumn prefWidth="75.0" text="C2" />
+                <TableColumn fx:id="id" prefWidth="75.0" text="Id szczepienia" />
+                <TableColumn fx:id="data" prefWidth="75.0" text="Data i godzina" />
+                  <TableColumn fx:id="realizacja" prefWidth="75.0" text="Realizacja" />
+                  <TableColumn fx:id="preparat" prefWidth="75.0" text="Preparat" />
+                  <TableColumn fx:id="pacjent" prefWidth="75.0" text="Id pacjent" />
               </columns>
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
             </TableView>
          </children>
       </VBox>
