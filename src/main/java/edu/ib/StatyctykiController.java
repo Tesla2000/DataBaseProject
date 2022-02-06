@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.ResourceBundle;
 
 import edu.ib.structures.Statystyka;
@@ -68,7 +69,8 @@ public class StatyctykiController {
 
     @FXML
     void alfabet_action(ActionEvent event) {
-
+        list.sort(Comparator.comparing(Statystyka::getPreparat));
+        tabela.setItems(list);
     }
 
     @FXML
@@ -82,7 +84,8 @@ public class StatyctykiController {
 
     @FXML
     void data_action(ActionEvent event) {
-        tabela.getItems();
+        list.sort(Comparator.comparing(Statystyka::getData));
+        tabela.setItems(list);
     }
 
     @FXML
