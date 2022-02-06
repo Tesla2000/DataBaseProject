@@ -2,7 +2,17 @@ package edu.ib;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
+
+import edu.ib.structures.Statystyka;
+import edu.ib.structures.Tester;
+import edu.ib.structures.VaccineRecord;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,9 +22,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 public class StatyctykiController {
+
+    public ObservableList<Statystyka> list = FXCollections.observableArrayList();
 
     private Stage stage;
     private Scene scene;
@@ -30,19 +43,19 @@ public class StatyctykiController {
     private Button back;
 
     @FXML
-    private TableColumn<?, ?> data;
+    private TableColumn<Statystyka, LocalDate> data;
 
     @FXML
-    private TableColumn<?, ?> id;
+    private TableColumn<Statystyka, String> id;
 
     @FXML
-    private TableColumn<?, ?> pacjent;
+    private TableColumn<Statystyka, String> pacjent;
 
     @FXML
-    private TableColumn<?, ?> preparat;
+    private TableColumn<Statystyka, String> preparat;
 
     @FXML
-    private TableColumn<?, ?> realizacja;
+    private TableColumn<Statystyka, Boolean> realizacja;
 
     @FXML
     private Button sortowanie_alfabet;
@@ -51,7 +64,7 @@ public class StatyctykiController {
     private Button sortowanie_data;
 
     @FXML
-    private TableView<?> tabela;
+    private TableView<Statystyka> tabela;
 
     @FXML
     void alfabet_action(ActionEvent event) {
@@ -69,11 +82,11 @@ public class StatyctykiController {
 
     @FXML
     void data_action(ActionEvent event) {
-
+        tabela.getItems();
     }
 
     @FXML
-    void initialize() {
+    void initialize() throws SQLException {
         assert back != null : "fx:id=\"back\" was not injected: check your FXML file 'Statystyki.fxml'.";
         assert data != null : "fx:id=\"data\" was not injected: check your FXML file 'Statystyki.fxml'.";
         assert id != null : "fx:id=\"id\" was not injected: check your FXML file 'Statystyki.fxml'.";
@@ -84,6 +97,39 @@ public class StatyctykiController {
         assert sortowanie_data != null : "fx:id=\"sortowanie_data\" was not injected: check your FXML file 'Statystyki.fxml'.";
         assert tabela != null : "fx:id=\"tabela\" was not injected: check your FXML file 'Statystyki.fxml'.";
 
+        daneDoTabeli();
+
     }
+
+
+    public void daneDoTabeli() throws SQLException {
+
+        //ObservableList<Statystyka> list = FXCollections.observableArrayList();
+        id.setCellValueFactory(new PropertyValueFactory<>("id"));
+        data.setCellValueFactory(new PropertyValueFactory<>("data"));
+        realizacja.setCellValueFactory(new PropertyValueFactory<>("realizacja"));
+        preparat.setCellValueFactory(new PropertyValueFactory<>("preparat"));
+        pacjent.setCellValueFactory(new PropertyValueFactory<>("pacjent"));
+
+        for (ArrayList<String> record : Tester.dataBaseInfo("select * `Szczepienia`;")) {
+            int year = Integer.parseInt(record.get(1).split(" ")[0].split("-")[0]);
+            int month = Integer.parseInt(record.get(1).split(" ")[0].split("-")[1]);
+            int day = Integer.parseInt(record.get(1).split(" ")[0].split("-")[2]);
+
+            list.add(new Statystyka(
+
+                    record.get(0),                          // id
+                    LocalDate.of(year, month, day),         // data
+                    Boolean.parseBoolean(record.get(2)),    // wykonanie
+                    record.get(3),                          // preparat
+                    record.get(4)                           // pacjent id
+            ));
+
+        }
+        tabela.setItems(list);
+
+
+    }
+
 
 }
