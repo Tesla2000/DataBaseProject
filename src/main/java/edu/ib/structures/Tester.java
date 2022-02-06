@@ -9,25 +9,25 @@ import java.util.ArrayList;
 
 
 public class Tester {
-    public static void main(String[] args) {
-        StringBuilder url = new StringBuilder();
-        url.append("jdbc:mysql://");
-        url.append("localhost:3306/");
-        url.append("punkt_szczepien?"); // znak zapytania jest ważny
-        url.append("useUnicode=true&characterEncoding=utf-8");
-        url.append("&user=admin");
-        url.append("&password=password");
-        url.append("&servertimeZone=CET");
-        String urlConnection= url.toString();
-
-        try {
-            Connection connection = DriverManager.getConnection(urlConnection);
-
-            PreparedStatement selectAllStatement = connection.
-                    prepareStatement("select PESEL, Haslo from Pacjenci_zapisywani;");
-            ResultSet rsTableContent = selectAllStatement.executeQuery();
-            ArrayList<ArrayList<String>> res = getResult(rsTableContent);
-            System.out.println(res.get(0).get(1));
+//    public static void main(String[] args) {
+//        StringBuilder url = new StringBuilder();
+//        url.append("jdbc:mysql://");
+//        url.append("localhost:3306/");
+//        url.append("punkt_szczepien?"); // znak zapytania jest ważny
+//        url.append("useUnicode=true&characterEncoding=utf-8");
+//        url.append("&user=admin");
+//        url.append("&password=password");
+//        url.append("&servertimeZone=CET");
+//        String urlConnection= url.toString();
+//
+//        try {
+//            Connection connection = DriverManager.getConnection(urlConnection);
+//
+//            PreparedStatement selectAllStatement = connection.
+//                    prepareStatement("select PESEL, Haslo from Pacjenci_zapisywani;");
+//            ResultSet rsTableContent = selectAllStatement.executeQuery();
+//            ArrayList<ArrayList<String>> res = getResult(rsTableContent);
+//            System.out.println(res.get(0).get(1));
 //            System.out.println();
 //            printResultsSet(rsTableContent);
 //            rsTables.close();
@@ -72,13 +72,13 @@ public class Tester {
 //            CachedRowSet cachedRowSet;
 //            cachedRowSet = new CachedRowSetImpl();
 //            cachedRowSet.populate(rsMultipleTableCheck);
-
-
-        }catch (SQLException e){
-            System.out.println(e.getMessage());
-        }
-
-    }
+//
+//
+//        }catch (SQLException e){
+//            System.out.println(e.getMessage());
+//        }
+//
+//    }
     public static void printResultsSet(ResultSet resultSet) throws SQLException {
         ResultSetMetaData rsmd = resultSet.getMetaData();
         int columnCount = rsmd.getColumnCount();
@@ -131,7 +131,6 @@ public class Tester {
                 "&password=password" +
                 "&servertimeZone=CET";
         Connection connection = DriverManager.getConnection(urlConnection);
-
         PreparedStatement selectAllStatement = connection.
                 prepareStatement(command);
         ResultSet rsTableContent = selectAllStatement.executeQuery();

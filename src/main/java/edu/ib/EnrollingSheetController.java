@@ -65,7 +65,7 @@ public class EnrollingSheetController {
     private TableView<FreeDate> table;
 
     @FXML
-    private TableColumn<FreeDate, Vaccine> vaccine;
+    private TableColumn<FreeDate, String> vaccine;
     @FXML
     void checkAction(ActionEvent event) throws SQLException {
         table.getItems().clear();
@@ -80,17 +80,18 @@ public class EnrollingSheetController {
         }
 
         ArrayList<ArrayList<String>> results = Tester.dataBaseInfo("select * from widok_dostepne_szczepienia;");
-        vaccine.setCellValueFactory(new PropertyValueFactory<FreeDate, Vaccine>("vaccine"));
-        date.setCellValueFactory(new PropertyValueFactory<FreeDate, LocalDateTime>("date"));
-        number.setCellValueFactory(new PropertyValueFactory<FreeDate, Integer>("number"));
+        vaccine.setCellValueFactory(new PropertyValueFactory<>("vaccine"));
+        date.setCellValueFactory(new PropertyValueFactory<>("date"));
+        number.setCellValueFactory(new PropertyValueFactory<>("number"));
         for (ArrayList<String> result: results){
             String date = result.get(5).split(" ")[0];
             int year = Integer.parseInt(date.split("-")[0]);
             int month = Integer.parseInt(date.split("-")[1]);
             int day = Integer.parseInt(date.split("-")[2]);
             int age = patient.getAgeAtVaccination(LocalDate.of(year, month, day));
-            if ((result.get(4).equals("null") || result.get(4).equals("brak") || age <= Integer.parseInt(result.get(4))) &&
-                    (result.get(3).equals("null") || result.get(3).equals("brak") || age >= Integer.parseInt(result.get(3)))){
+            if ((result.get(4).equals("brak") || age <= Integer.parseInt(result.get(4))) &&
+                     (result.get(3).equals("brak") || age >= Integer.parseInt(result.get(3))) &&
+                    (result.get(2).equals("0") || patient.isWoman())){
                 String command = "select Data from widok_szczepien " +
                         "where PESEL like " + pesel +" and Rodzaj_preparatu like '" + result.get(1) + "' and " +
                         "(select count(*) from uprawnienia where zapisywani_pesel like '"+pesel+"' and zapisujacy_pesel like '"+login+"') = 1 " +
@@ -107,7 +108,7 @@ public class EnrollingSheetController {
                     int minute = Integer.parseInt(date.split(":")[1]);
                     n++;
                     list.add(new FreeDate(LocalDateTime.of(year,month,day,hour,minute),
-                            Vaccine.valueOf(result.get(1).replace(" ", "_")), n));
+                            result.get(1), n));
                 }
                 else{
                     String lastTimeTaken;
@@ -125,7 +126,7 @@ public class EnrollingSheetController {
                         int minute = Integer.parseInt(date.split(":")[1]);
                         n++;
                         list.add(new FreeDate(LocalDateTime.of(year,month,day,hour,minute),
-                                Vaccine.valueOf(result.get(1)), n));
+                                result.get(1), n));
 
                     }
                 }
@@ -153,9 +154,9 @@ public class EnrollingSheetController {
         int n = 0;
         Patient patient = new Patient(pesel);
         ArrayList<ArrayList<String>> results = Tester.dataBaseInfo("select * from widok_dostepne_szczepienia;");
-        vaccine.setCellValueFactory(new PropertyValueFactory<FreeDate, Vaccine>("vaccine"));
-        date.setCellValueFactory(new PropertyValueFactory<FreeDate, LocalDateTime>("date"));
-        number.setCellValueFactory(new PropertyValueFactory<FreeDate, Integer>("number"));
+        vaccine.setCellValueFactory(new PropertyValueFactory<>("vaccine"));
+        date.setCellValueFactory(new PropertyValueFactory<>("date"));
+        number.setCellValueFactory(new PropertyValueFactory<>("number"));
         for (ArrayList<String> result: results){
             String date = result.get(5).split(" ")[0];
             int year = Integer.parseInt(date.split("-")[0]);
@@ -176,7 +177,7 @@ public class EnrollingSheetController {
                     int minute = Integer.parseInt(date.split(":")[1]);
                     n++;
                     list.add(new FreeDate(LocalDateTime.of(year,month,day,hour,minute),
-                            Vaccine.valueOf(result.get(1).replace(" ", "_")), n));
+                            result.get(1), n));
                 }
                 else{
                     String lastTimeTaken;
@@ -194,7 +195,7 @@ public class EnrollingSheetController {
                         int minute = Integer.parseInt(date.split(":")[1]);
                         n++;
                         list.add(new FreeDate(LocalDateTime.of(year,month,day,hour,minute),
-                                Vaccine.valueOf(result.get(1)), n));
+                                result.get(1), n));
 
                     }
                 }
@@ -218,7 +219,7 @@ public class EnrollingSheetController {
             }
         }
         table.getItems().clear();
-
+        displayDates(login);
     }
 
     @FXML
@@ -239,9 +240,9 @@ public class EnrollingSheetController {
         int n = 0;
         Patient patient = new Patient(login);
         ArrayList<ArrayList<String>> results = Tester.dataBaseInfo("select * from widok_dostepne_szczepienia;");
-        vaccine.setCellValueFactory(new PropertyValueFactory<FreeDate, Vaccine>("vaccine"));
-        date.setCellValueFactory(new PropertyValueFactory<FreeDate, LocalDateTime>("date"));
-        number.setCellValueFactory(new PropertyValueFactory<FreeDate, Integer>("number"));
+        vaccine.setCellValueFactory(new PropertyValueFactory<>("vaccine"));
+        date.setCellValueFactory(new PropertyValueFactory<>("date"));
+        number.setCellValueFactory(new PropertyValueFactory<>("number"));
         for (ArrayList<String> result: results){
             String date = result.get(5).split(" ")[0];
             int year = Integer.parseInt(date.split("-")[0]);
@@ -252,7 +253,7 @@ public class EnrollingSheetController {
             int minute = Integer.parseInt(date.split(":")[1]);
             n++;
             list.add(new FreeDate(LocalDateTime.of(year,month,day,hour,minute),
-                    Vaccine.valueOf(result.get(1).replace(" ", "_")), n));
+                    result.get(1), n));
 
             }
         table.setItems(list);

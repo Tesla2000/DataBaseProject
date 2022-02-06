@@ -9,6 +9,7 @@ public class VaccineRecord {
     private long pesel;
     private String nazwisko;
 
+
     public VaccineRecord(Boolean realization, int id, LocalDate date, long pesel, String nazwisko) {
         this.realization = realization;
         this.id = id;

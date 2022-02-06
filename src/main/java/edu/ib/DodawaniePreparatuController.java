@@ -24,7 +24,6 @@ public class DodawaniePreparatuController {
     private Parent root;
 
 
-
     @FXML
     private ResourceBundle resources;
 

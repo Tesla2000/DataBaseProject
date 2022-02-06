@@ -9,7 +9,7 @@ public class Patient {
     private String id; // May begin with zero
     private String phoneNumber = null;  // May begin with zero
     private String password = null;
-    private ArrayList<Vaccine> vaccines = new ArrayList<>();
+    private ArrayList<String> vaccines = new ArrayList<>();
     private final Gender gender;
     private final ArrayList<Patient> permissions = new ArrayList<>();
     private final int yearOfBirth;
@@ -34,7 +34,7 @@ public class Patient {
                 (yearOfBirth%100==0 && yearOfBirth%400!=0)))) throw new IllegalArgumentException("Invalid Pesel");
     }
 
-    public Patient(String name, String id, String phoneNumber, String password, ArrayList<Vaccine> vaccines) {
+    public Patient(String name, String id, String phoneNumber, String password, ArrayList<String> vaccines) {
         this.name = name;
         this.id = id;
         this.phoneNumber = phoneNumber;
@@ -53,6 +53,10 @@ public class Patient {
 
     public void addPermission(Patient patient) {
         permissions.add(patient);
+    }
+
+    public boolean isWoman(){
+        return gender.equals(Gender.Woman);
     }
 
     public void revokePermission(Patient patient){

@@ -3,14 +3,11 @@ package edu.ib;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import edu.ib.structures.Permit;
 import edu.ib.structures.Tester;
-import edu.ib.structures.Vaccine;
-import edu.ib.structures.VaccineRecord;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;

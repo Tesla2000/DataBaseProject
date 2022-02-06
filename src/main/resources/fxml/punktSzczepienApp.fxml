@@ -13,13 +13,13 @@
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.ib.PunktSzczepienAppContoller">
    <right>
       <TableView fx:id="tabelaTableView" prefHeight="280.0" prefWidth="379.0" BorderPane.alignment="CENTER">
-        <columns>
-          <TableColumn fx:id="Finalizaion" prefWidth="75.0" text="Wykonanie" />
+         <columns>
+            <TableColumn fx:id="Finalizaion" prefWidth="75.0" text="Wykonanie" />
             <TableColumn fx:id="kolumnaId" prefWidth="75.0" text="Id" />
-          <TableColumn fx:id="date" prefWidth="75.0" text="data" />
+            <TableColumn fx:id="date" prefWidth="75.0" text="data" />
             <TableColumn fx:id="pesel" prefWidth="75.0" text="Pesel" />
             <TableColumn fx:id="lastName" prefWidth="75.0" text="Nazwisko" />
-        </columns>
+         </columns>
          <BorderPane.margin>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </BorderPane.margin>
@@ -116,10 +116,10 @@
    </center>
    <left>
       <TableView fx:id="Szczepionki" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-        <columns>
-          <TableColumn fx:id="nazwa_szczepionki" prefWidth="75.0" text="Szczepionka" />
-          <TableColumn fx:id="id_szczepionki" prefWidth="75.0" text="id" />
-        </columns>
+         <columns>
+            <TableColumn fx:id="nazwa_szczepionki" prefWidth="75.0" text="Szczepionka" />
+<!--            <TableColumn fx:id="id_szczepionki" prefWidth="75.0" text="id" />-->
+         </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
