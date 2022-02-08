@@ -8,12 +8,22 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * edu.ib.VaccinationClinicApp
+ * initializes application and displays login scene
+ *
+ * @author FR, MD
+ * @version 1.0
+ * @since 2022-02-08
+ */
 public class VaccinationClinicApp extends Application {
 
     public static void main(String[] args) {
         launch(args);
     }
-
+    /**
+     * displays login scene
+     */
     @Override
     public void start(Stage primaryStage) throws IOException {
 

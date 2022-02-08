@@ -22,6 +22,15 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
+/**
+ * edu.ib.PermissionSheetController
+ * shows patients who patient can register and
+ * links to patients main page
+ *
+ * @author FR, MD
+ * @version 1.0
+ * @since 2022-02-08
+ */
 public class PermissionsSheetController {
     private Stage stage;
     private Scene scene;
@@ -48,6 +57,7 @@ public class PermissionsSheetController {
 
     @FXML
     private TableView<Permit> table;
+
 
     @FXML
     void backAction(ActionEvent event) throws IOException, SQLException {

@@ -20,6 +20,15 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+
+/**
+ * edu.ib.RegistrationSheetController
+ * implements methods to register new patient
+ *
+ * @author FR, MD
+ * @version 1.0
+ * @since 2022-02-08
+ */
 public class RegistrationSheetController {
     private Stage stage;
     private Scene scene;
@@ -55,6 +64,10 @@ public class RegistrationSheetController {
     @FXML
     private Text resp;
 
+    /**
+     * Using data from fields registers new user or
+     * displays reason of failure
+     */
     @FXML
     void RegisterAction(ActionEvent event) throws IOException, SQLException {
         if (peselField.getText().length() != 11)
@@ -116,7 +129,9 @@ public class RegistrationSheetController {
 
         }
     }
-
+    /**
+     * Initializes register scene
+     */
     @FXML
     void initialize() {
         assert RegisterResponse != null : "fx:id=\"RegisterResponse\" was not injected: check your FXML file 'registrationSheet.fxml'.";
