@@ -198,4 +198,16 @@ public class PunktSzczepienAppContoller {
     @FXML
     private TableColumn<Szczepionka, String> nazwa_szczepionki;
 
+
+    @FXML
+    void goToStaty(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/Statystyki.fxml"));
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    @FXML
+    private Button staty;
 }
