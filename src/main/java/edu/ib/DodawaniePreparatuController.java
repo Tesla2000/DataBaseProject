@@ -45,6 +45,14 @@ public class DodawaniePreparatuController {
     @FXML
     private Button zatwierdzam;
 
+
+    /**
+     * finalizes adding new vaccine type
+     *
+     * @param event on button click
+     * @throws SQLException thrown if SQL request is not valid
+     * @throws IOException  thrown is something is wrong with fxml file
+     */
     @FXML
     void zatwierdzenie_dodania(ActionEvent event) throws SQLException, IOException {
         int czyTylkoDlaKobiet;
@@ -56,11 +64,11 @@ public class DodawaniePreparatuController {
         if (min.equals("")) min = "null";
         if (max.equals("")) max = "null";
 
-        String command = "Call dodawanie_szczepien('"+nazwaPreparatu+"',"+min+","+max+","+czyTylkoDlaKobiet+");";
+        String command = "Call dodawanie_szczepien('" + nazwaPreparatu + "'," + min + "," + max + "," + czyTylkoDlaKobiet + ");";
         System.out.println(command);
         Tester.callProcedure(command);
-        Parent root= FXMLLoader.load(getClass().getResource("/fxml/punktSzczepienApp.fxml"));
-        stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/punktSzczepienApp.fxml"));
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
@@ -68,6 +76,9 @@ public class DodawaniePreparatuController {
 
     }
 
+    /**
+     * Methode initializes elements of the scene for permissions window.
+     */
     @FXML
     void initialize() {
         assert nazwa != null : "fx:id=\"nazwa\" was not injected: check your FXML file 'dodawaniePreparatu.fxml'.";

@@ -91,7 +91,7 @@ public class PunktSzczepienAppContoller {
     /**
      * Switches the window to adding permissions.
      * @param event on button click
-     * @throws IOException thrown if SQL request is not valid
+     * @throws IOException thrown is something is wrong with fxml file
      */
     @FXML
     void UprawnieniaAction(ActionEvent event) throws IOException {
@@ -107,7 +107,7 @@ public class PunktSzczepienAppContoller {
     /**
      * Switches the window to adding new vaccine types.
      * @param event on button click
-     * @throws IOException thrown if SQL request is not valid
+     * @throws IOException thrown is something is wrong with fxml file
      */
     @FXML
     void dodajPreparat(ActionEvent event) throws IOException {
@@ -187,7 +187,7 @@ public class PunktSzczepienAppContoller {
     /**
      * Allows changing realisation to "true" for a specific record in database
      * @param event on button click
-     * @throws IOException thrown if SQL request is not valid
+     * @throws IOException thrown is something is wrong with fxml file
      */
     @FXML
     void zmienNaWykonane(ActionEvent event) throws SQLException {
@@ -202,7 +202,7 @@ public class PunktSzczepienAppContoller {
     /**
      * Handles adding new appointments
      * @param event on button click
-     * @throws IOException thrown if SQL request is not valid
+     * @throws IOException thrown is something is wrong with fxml file
      */
     @FXML
     void dodajTermin(ActionEvent event) throws SQLException {
@@ -234,7 +234,7 @@ public class PunktSzczepienAppContoller {
     /**
      * Switches the window to statistics
      * @param event on button click
-     * @throws IOException thrown if SQL request is not valid
+     * @throws IOException thrown is something is wrong with fxml file
      */
     @FXML
     void goToStaty(ActionEvent event) throws IOException {

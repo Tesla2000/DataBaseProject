@@ -67,19 +67,26 @@ public class StatyctykiController {
     @FXML
     private TableView<Statystyka> tabela;
 
-    @FXML
+
     /**
      * sorts list of items in the table alphabetically, based on vaccines name.
+     *
+     * @param event on button click
      */
+    @FXML
     void alfabet_action(ActionEvent event) {
         list.sort(Comparator.comparing(Statystyka::getPreparat));
         tabela.setItems(list);
     }
 
-    @FXML
+
     /**
-     * changes active window back to main window for Vaccination clinic.
+     * changes active window back to main window for Vaccination clinic
+     *
+     * @param event on button click
+     * @throws IOException thrown if SQL request is not valid
      */
+    @FXML
     void back_action(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/punktSzczepienApp.fxml"));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -88,15 +95,21 @@ public class StatyctykiController {
         stage.show();
     }
 
-    @FXML
     /**
      * sorts list of items in the table by the date.
+     *
+     * @param event on button click
+     * @throws IOException thrown is something is wrong with fxml file
      */
+    @FXML
     void data_action(ActionEvent event) {
         list.sort(Comparator.comparing(Statystyka::getData));
         tabela.setItems(list);
     }
 
+    /**
+     * Methode initializes elements of the scene for statistics window.
+     */
     @FXML
     void initialize() throws SQLException {
         assert back != null : "fx:id=\"back\" was not injected: check your FXML file 'statystyki.fxml'.";
@@ -115,6 +128,7 @@ public class StatyctykiController {
 
     /**
      * Connects with database and shows received data in the table.
+     *
      * @throws SQLException thrown if SQL request is not valid
      */
     public void daneDoTabeli() throws SQLException {
@@ -145,8 +159,6 @@ public class StatyctykiController {
 
 
     }
-
-
 
 
 }

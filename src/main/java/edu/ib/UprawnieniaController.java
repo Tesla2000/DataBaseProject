@@ -42,6 +42,9 @@ public class UprawnieniaController {
     private Button zatwierdzUprawnieniaButton;
 
     @FXML
+    /**
+     * Methode initializes elements of the scene for permissions window.
+     */
     void initialize() {
         assert anulujButton != null : "fx:id=\"anulujButton\" was not injected: check your FXML file 'uprawnienia.fxml'.";
         assert peselDwaTextField != null : "fx:id=\"peselDwaTextField\" was not injected: check your FXML file 'uprawnienia.fxml'.";
@@ -50,32 +53,39 @@ public class UprawnieniaController {
 
     }
 
+    /**
+     * Switches the window back to main view for the clinic
+     *
+     * @param event on button click
+     * @throws IOException thrown is something is wrong with fxml file
+     */
     @FXML
     void anulujDodawanie(ActionEvent event) throws IOException {
-        Parent root= FXMLLoader.load(getClass().getResource("/fxml/punktSzczepienApp.fxml"));
-        stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/punktSzczepienApp.fxml"));
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
     }
 
+    /**
+     * @param event
+     * @throws SQLException thrown if SQL request is not valid
+     * @throws IOException  thrown is something is wrong with fxml file
+     */
     @FXML
     void zatwierdz(ActionEvent event) throws SQLException, IOException {
         String pierwszy = peselPierwszyTextField.getText();
         String drugi = peselDwaTextField.getText();
-        Tester.callProcedure("call dodawanie_uprawnien('"+pierwszy+"','"+drugi+"');");
-        Parent root= FXMLLoader.load(getClass().getResource("/fxml/punktSzczepienApp.fxml"));
-        stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        Tester.callProcedure("call dodawanie_uprawnien('" + pierwszy + "','" + drugi + "');");
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/punktSzczepienApp.fxml"));
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
 
 
-
     }
-
-
-
 
 
 }
