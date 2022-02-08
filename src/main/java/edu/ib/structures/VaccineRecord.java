@@ -2,6 +2,14 @@ package edu.ib.structures;
 
 import java.time.LocalDate;
 
+/**
+ * edu.ib.structures.VaccineRecord
+ * class used to hold data put in table of unrealized vaccines
+ *
+ * @author FR, MD
+ * @version 1.0
+ * @since 2022-02-08
+ */
 public class VaccineRecord {
     private Boolean realization;
     private int id;
@@ -9,7 +17,14 @@ public class VaccineRecord {
     private long pesel;
     private String nazwisko;
 
-
+    /**
+     * Class constructor
+     * @param realization true if vaccines was already taken false otherwise
+     * @param date date and hour of vaccination
+     * @param id id number of vaccine
+     * @param pesel personal id number of patient
+     * @param nazwisko name of patient
+     */
     public VaccineRecord(Boolean realization, int id, LocalDate date, long pesel, String nazwisko) {
         this.realization = realization;
         this.id = id;

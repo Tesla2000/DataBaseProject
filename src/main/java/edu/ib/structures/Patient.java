@@ -4,6 +4,15 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+/**
+ * edu.ib.structures.Patient
+ * class used to check if person with given e-mail can take specific vaccine
+ * also used to prevent from SQL code injection
+ *
+ * @author FR, MD
+ * @version 1.0
+ * @since 2022-02-08
+ */
 public class Patient {
     private String name = null;
     private String id; // May begin with zero
@@ -16,6 +25,10 @@ public class Patient {
     private final int monthOfBirth;
     private final int dayOfBirth;
 
+    /**
+     * Class constructor calculating day of birth and gender from id
+     * @param id personal id number of patient
+     */
     public Patient(String id) {
         this.id = id;
         if (Long.parseLong(id)%2 == 1) this.gender = Gender.Man;
@@ -34,46 +47,19 @@ public class Patient {
                 (yearOfBirth%100==0 && yearOfBirth%400!=0)))) throw new IllegalArgumentException("Invalid Pesel");
     }
 
-    public Patient(String name, String id, String phoneNumber, String password, ArrayList<String> vaccines) {
-        this.name = name;
-        this.id = id;
-        this.phoneNumber = phoneNumber;
-        this.password = password;
-        this.vaccines = vaccines;
-        if (Long.parseLong(id)%2 == 1) this.gender = Gender.Man;
-        else this.gender = Gender.Woman;
-        if (id.charAt(2) == '2' || id.charAt(2) == '3')
-            yearOfBirth = 2000 + Integer.parseInt(id.substring(0,2));
-        else
-            yearOfBirth = 1900 + Integer.parseInt(id.substring(0,2));
-        monthOfBirth = Integer.parseInt(id.substring(2,4))%20;
-        dayOfBirth = Integer.parseInt(id.substring(4,6));
-    }
-
-
-    public void addPermission(Patient patient) {
-        permissions.add(patient);
-    }
-
+    /**
+     * Method determines if patients gender is woman
+     * @return boolean true if patient is a woman false otherwise
+     */
     public boolean isWoman(){
         return gender.equals(Gender.Woman);
     }
 
-    public void revokePermission(Patient patient){
-        permissions.remove(patient);
-    }
-
-    public boolean isAdult() {
-        int year = LocalDateTime.now().getYear();
-        int month = LocalDateTime.now().getMonth().getValue();
-        int day = LocalDateTime.now().getDayOfMonth();
-        int age = year - yearOfBirth;
-        if (monthOfBirth > month) age -= 1;
-        else if (monthOfBirth==month && dayOfBirth > day) age -= 1;
-        return age >= 18;
-    }
-
-
+    /**
+     * Methode returns patients age at vaccination to compare with required
+     * @param vaccinationDate LocalDate date of vaccination
+     * @return int age at vaccination date
+     */
     public int getAgeAtVaccination(LocalDate vaccinationDate) {
         int year = vaccinationDate.getYear();
         int month = vaccinationDate.getMonth().getValue();
@@ -84,18 +70,6 @@ public class Patient {
         return age;
     }
 
-    public ArrayList<Patient> getPermissions() {
-        return permissions;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getId() {
         return id;
     }
@@ -104,23 +78,5 @@ public class Patient {
         this.id = id;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Gender getGender() {
-        return gender;
-    }
 }

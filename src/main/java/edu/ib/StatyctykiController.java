@@ -115,7 +115,7 @@ public class StatyctykiController {
 
     /**
      * Connects with database and shows received data in the table.
-     * @throws SQLException
+     * @throws SQLException thrown if SQL request is not valid
      */
     public void daneDoTabeli() throws SQLException {
 
