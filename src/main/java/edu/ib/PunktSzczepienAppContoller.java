@@ -172,7 +172,6 @@ public class PunktSzczepienAppContoller {
     void dodajTermin(ActionEvent event) throws SQLException {
 
         int iloscMiejsc = Integer.parseInt(iloscMiejscTextField.getText());
-//        LocalDateTime termin = LocalDateTime.parse(terminTextField.getText());  //  data w odp. formacie
         String command = "select id from typy_szczepien where " +
                 "Rodzaj_preparatu like '"+idPreparatu.getText()+"' limit 1;";
         System.out.println(command);
@@ -192,8 +191,6 @@ public class PunktSzczepienAppContoller {
     @FXML
     private TableView<Szczepionka> Szczepionki;
 
-//    @FXML
-//    private TableColumn<Szczepionka, Integer> id_szczepionki;
 
     @FXML
     private TableColumn<Szczepionka, String> nazwa_szczepionki;

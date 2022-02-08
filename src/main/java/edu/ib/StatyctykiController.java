@@ -68,12 +68,18 @@ public class StatyctykiController {
     private TableView<Statystyka> tabela;
 
     @FXML
+    /**
+     * sorts list of items in the table alphabetically, based on vaccines name.
+     */
     void alfabet_action(ActionEvent event) {
         list.sort(Comparator.comparing(Statystyka::getPreparat));
         tabela.setItems(list);
     }
 
     @FXML
+    /**
+     * changes active window back to main window for Vaccination clinic.
+     */
     void back_action(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/punktSzczepienApp.fxml"));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -83,6 +89,9 @@ public class StatyctykiController {
     }
 
     @FXML
+    /**
+     * sorts list of items in the table by the date.
+     */
     void data_action(ActionEvent event) {
         list.sort(Comparator.comparing(Statystyka::getData));
         tabela.setItems(list);
@@ -104,7 +113,10 @@ public class StatyctykiController {
 
     }
 
-
+    /**
+     * Connects with database and shows received data in the table.
+     * @throws SQLException
+     */
     public void daneDoTabeli() throws SQLException {
 
         //ObservableList<Statystyka> list = FXCollections.observableArrayList();

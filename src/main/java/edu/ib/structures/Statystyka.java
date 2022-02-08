@@ -1,7 +1,7 @@
 package edu.ib.structures;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+
 
 public class Statystyka {
     private String id;
