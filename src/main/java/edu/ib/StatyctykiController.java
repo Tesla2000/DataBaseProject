@@ -99,15 +99,15 @@ public class StatyctykiController {
 
     @FXML
     void initialize() throws SQLException {
-        assert back != null : "fx:id=\"back\" was not injected: check your FXML file 'Statystyki.fxml'.";
-        assert data != null : "fx:id=\"data\" was not injected: check your FXML file 'Statystyki.fxml'.";
-        assert id != null : "fx:id=\"id\" was not injected: check your FXML file 'Statystyki.fxml'.";
-        assert pacjent != null : "fx:id=\"pacjent\" was not injected: check your FXML file 'Statystyki.fxml'.";
-        assert preparat != null : "fx:id=\"preparat\" was not injected: check your FXML file 'Statystyki.fxml'.";
-        assert realizacja != null : "fx:id=\"realizacja\" was not injected: check your FXML file 'Statystyki.fxml'.";
-        assert sortowanie_alfabet != null : "fx:id=\"sortowanie_alfabet\" was not injected: check your FXML file 'Statystyki.fxml'.";
-        assert sortowanie_data != null : "fx:id=\"sortowanie_data\" was not injected: check your FXML file 'Statystyki.fxml'.";
-        assert tabela != null : "fx:id=\"tabela\" was not injected: check your FXML file 'Statystyki.fxml'.";
+        assert back != null : "fx:id=\"back\" was not injected: check your FXML file 'statystyki.fxml'.";
+        assert data != null : "fx:id=\"data\" was not injected: check your FXML file 'statystyki.fxml'.";
+        assert id != null : "fx:id=\"id\" was not injected: check your FXML file 'statystyki.fxml'.";
+        assert pacjent != null : "fx:id=\"pacjent\" was not injected: check your FXML file 'statystyki.fxml'.";
+        assert preparat != null : "fx:id=\"preparat\" was not injected: check your FXML file 'statystyki.fxml'.";
+        assert realizacja != null : "fx:id=\"realizacja\" was not injected: check your FXML file 'statystyki.fxml'.";
+        assert sortowanie_alfabet != null : "fx:id=\"sortowanie_alfabet\" was not injected: check your FXML file 'statystyki.fxml'.";
+        assert sortowanie_data != null : "fx:id=\"sortowanie_data\" was not injected: check your FXML file 'statystyki.fxml'.";
+        assert tabela != null : "fx:id=\"tabela\" was not injected: check your FXML file 'statystyki.fxml'.";
 
         daneDoTabeli();
 
@@ -126,7 +126,7 @@ public class StatyctykiController {
         preparat.setCellValueFactory(new PropertyValueFactory<>("preparat"));
         pacjent.setCellValueFactory(new PropertyValueFactory<>("pacjent"));
 
-        for (ArrayList<String> record : Tester.dataBaseInfo("select * `Szczepienia`;")) {
+        for (ArrayList<String> record : Tester.dataBaseInfo("select * from widok_;")) {
             int year = Integer.parseInt(record.get(1).split(" ")[0].split("-")[0]);
             int month = Integer.parseInt(record.get(1).split(" ")[0].split("-")[1]);
             int day = Integer.parseInt(record.get(1).split(" ")[0].split("-")[2]);
