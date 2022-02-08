@@ -21,7 +21,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-
+/**
+ * edu.ib.EnrollingSheetController
+ * Handles the function of the main window for vaccination clinic.
+ *
+ * @author FR, MD
+ * @version 1.0
+ * @since 2022-02-08
+ */
 public class PunktSzczepienAppContoller {
 
     private Stage stage;
@@ -80,6 +87,12 @@ public class PunktSzczepienAppContoller {
     @FXML
     private TextField idPreparatu;
 
+
+    /**
+     * Switches the window to adding permissions.
+     * @param event on button click
+     * @throws IOException thrown if SQL request is not valid
+     */
     @FXML
     void UprawnieniaAction(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/uprawnienia.fxml"));
@@ -89,6 +102,13 @@ public class PunktSzczepienAppContoller {
         stage.show();
     }
 
+
+
+    /**
+     * Switches the window to adding new vaccine types.
+     * @param event on button click
+     * @throws IOException thrown if SQL request is not valid
+     */
     @FXML
     void dodajPreparat(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/dodawaniePreparatu.fxml"));
@@ -99,7 +119,9 @@ public class PunktSzczepienAppContoller {
 
     }
 
-
+    /**
+     * Methode initializes elements of the scene for vaccination clinic window.
+     */
     @FXML
     void initialize() throws SQLException {
         assert Finalizaion != null : "fx:id=\"Finalizaion\" was not injected: check your FXML file 'punktSzczepienApp.fxml'.";
@@ -135,6 +157,10 @@ public class PunktSzczepienAppContoller {
         Szczepionki.setItems(lista);
     }
 
+    /**
+     * Handles loading items into the table of visits
+     * @throws SQLException thrown if SQL request is not valid
+     */
     public void displayRealization() throws SQLException {
         ObservableList<VaccineRecord> list = FXCollections.observableArrayList();
         pesel.setCellValueFactory(new PropertyValueFactory<>("pesel"));
@@ -157,6 +183,12 @@ public class PunktSzczepienAppContoller {
         tabelaTableView.setItems(list);
     }
 
+
+    /**
+     * Allows changing realisation to "true" for a specific record in database
+     * @param event on button click
+     * @throws IOException thrown if SQL request is not valid
+     */
     @FXML
     void zmienNaWykonane(ActionEvent event) throws SQLException {
         String id = idText.getText(); // pobieram id
@@ -167,7 +199,11 @@ public class PunktSzczepienAppContoller {
 
     }
 
-
+    /**
+     * Handles adding new appointments
+     * @param event on button click
+     * @throws IOException thrown if SQL request is not valid
+     */
     @FXML
     void dodajTermin(ActionEvent event) throws SQLException {
 
@@ -195,7 +231,11 @@ public class PunktSzczepienAppContoller {
     @FXML
     private TableColumn<Szczepionka, String> nazwa_szczepionki;
 
-
+    /**
+     * Switches the window to statistics
+     * @param event on button click
+     * @throws IOException thrown if SQL request is not valid
+     */
     @FXML
     void goToStaty(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/statystyki.fxml"));
