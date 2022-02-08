@@ -21,8 +21,11 @@ public class VaccinationClinicApp extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+
     /**
-     * displays login scene
+     * Displays logging scene
+     * @param primaryStage
+     * @throws IOException thrown is something is wrong with fxml file
      */
     @Override
     public void start(Stage primaryStage) throws IOException {

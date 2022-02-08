@@ -58,7 +58,13 @@ public class PermissionsSheetController {
     @FXML
     private TableView<Permit> table;
 
-
+    /**
+     * Goes back to the main patient scene with
+     *               conserving login
+     * @param event on click of button
+     * @throws IOException thrown is something is wrong with fxml file
+     * @throws SQLException thrown if SQL request is not valid
+     */
     @FXML
     void backAction(ActionEvent event) throws IOException, SQLException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/patientSheet.fxml"));
@@ -71,6 +77,9 @@ public class PermissionsSheetController {
         stage.show();
     }
 
+    /**
+     * Methode initializes elements of scene
+     */
     @FXML
     void initialize() {
         assert backButton != null : "fx:id=\"backButton\" was not injected: check your FXML file 'permissionSheet.fxml'.";
@@ -81,6 +90,12 @@ public class PermissionsSheetController {
 
     }
 
+    /**
+     * Methode displays permissions of patient whose personal id number is given
+     * and saves personal id number as a field of class
+     * @param login personal id number of patient
+     * @throws SQLException thrown if SQL request is not valid
+     */
     public void displayPermissions(String login) throws SQLException {
         this.login = login;
         id.setCellValueFactory(new PropertyValueFactory<Permit, String>("PESEL"));

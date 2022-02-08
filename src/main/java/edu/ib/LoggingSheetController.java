@@ -19,6 +19,18 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+
+
+/**
+ * edu.ib.LoggingSheetController
+ * Allows patient and doctor to log in
+ * given correct combination of login and password or
+ * transfers user to registration scene
+ *
+ * @author FR, MD
+ * @version 1.0
+ * @since 2022-02-08
+ */
 public class LoggingSheetController {
     private Stage stage;
     private Scene scene;
@@ -45,6 +57,12 @@ public class LoggingSheetController {
     @FXML
     private PasswordField passwordField;
 
+    /**
+     * Checks if given combination of login and password is correct and logs in either as patient or doctor
+     * @param event on button click
+     * @throws IOException thrown is something is wrong with fxml file
+     * @throws SQLException thrown if SQL request is not valid
+     */
     @FXML
     void LogInAction(ActionEvent event) throws IOException, SQLException {
         ArrayList<ArrayList<String>> combinations = Tester.dataBaseInfo("select PESEL, Haslo from pacjenci_i_hasla;");
@@ -78,6 +96,11 @@ public class LoggingSheetController {
 
     }
 
+    /**
+     * Transfers user to registration
+     * @param event on button click
+     * @throws IOException thrown is something is wrong with fxml file
+     */
     @FXML
     void RegisterAction(ActionEvent event) throws IOException {
         Parent root= FXMLLoader.load(getClass().getResource("/fxml/registrationSheet.fxml"));
@@ -87,6 +110,9 @@ public class LoggingSheetController {
         stage.show();
     }
 
+    /**
+     * Methode initializes elements of scene
+     */
     @FXML
     void initialize() {
         assert LogInButton != null : "fx:id=\"LogInButton\" was not injected: check your FXML file 'loggingSheet.fxml'.";

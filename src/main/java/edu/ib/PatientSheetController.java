@@ -24,6 +24,16 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
+
+/**
+ * edu.ib.PatientSheetController
+ * shows scheduled and take vaccines of a patient and
+ * allows him to move to other scenes
+ *
+ * @author FR, MD
+ * @version 1.0
+ * @since 2022-02-08
+ */
 public class PatientSheetController {
     private Stage stage;
     private Scene scene;
@@ -63,6 +73,12 @@ public class PatientSheetController {
     @FXML
     private TableColumn<PatientsVaccine, String> vaccineColumn;
 
+    /**
+     * Allows patient to unsubscribe for vaccination takes name of vaccine from field
+     * and cancels one scheduled vaccination of given name of vaccine
+     * @param event button click
+     * @throws SQLException thrown if SQL request is not valid
+     */
     @FXML
     void unsubscribeAction(ActionEvent event) throws SQLException {
         String vaccine = unsubscribeField.getText();
@@ -78,7 +94,12 @@ public class PatientSheetController {
 
     }
 
-
+    /**
+     * Changes scene to enrolling and passes patients personal id number as argument
+     * @param event on button click
+     * @throws IOException thrown is something is wrong with fxml file
+     * @throws SQLException thrown if SQL request is not valid
+     */
     @FXML
     void enrollAction(ActionEvent event) throws IOException, SQLException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/enrollingSheet.fxml"));
@@ -90,6 +111,12 @@ public class PatientSheetController {
         stage.setScene(scene);
         stage.show();
     }
+
+    /**
+     * Shows scheduled and take vaccines of a patient
+     * @param PESEL patients personal id number
+     * @throws SQLException thrown if SQL request is not valid
+     */
     public void displayVaccines(String PESEL) throws SQLException {
         login = PESEL;
         ArrayList<ArrayList<String>> results = Tester.dataBaseInfo("select * from zrealizowane_szczepienia " +
@@ -110,6 +137,12 @@ public class PatientSheetController {
 
 
     }
+
+    /**
+     * Changes scene to logging
+     * @param event on button click
+     * @throws IOException thrown is something is wrong with fxml file
+     */
     @FXML
     void logOutAction(ActionEvent event) throws IOException {
         Parent root= FXMLLoader.load(getClass().getResource("/fxml/loggingSheet.fxml"));
@@ -119,6 +152,12 @@ public class PatientSheetController {
         stage.show();
     }
 
+    /**
+     * Changes scene to permissions and passes patients personal id number as argument
+     * @param event on button click
+     * @throws IOException thrown is something is wrong with fxml file
+     * @throws SQLException thrown if SQL request is not valid
+     */
     @FXML
     void permissionsAction(ActionEvent event) throws IOException, SQLException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/permissionSheet.fxml"));
@@ -131,6 +170,9 @@ public class PatientSheetController {
         stage.show();
     }
 
+    /**
+     * Methode initializes elements of scene
+     */
     @FXML
     void initialize() {
         assert dateColumn != null : "fx:id=\"dateColumn\" was not injected: check your FXML file 'patientSheet.fxml'.";

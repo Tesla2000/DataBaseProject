@@ -126,7 +126,7 @@ public class StatyctykiController {
         preparat.setCellValueFactory(new PropertyValueFactory<>("preparat"));
         pacjent.setCellValueFactory(new PropertyValueFactory<>("pacjent"));
 
-        for (ArrayList<String> record : Tester.dataBaseInfo("select szczepienia.'id', szczepienia.'Data', szczepienia.`Realizacja`, szczepienia.`Rodzaj_preparatu`,zapisywani.`PESEL` from widok_szczepien;")) {
+        for (ArrayList<String> record : Tester.dataBaseInfo("select id, Data, Realizacja, Rodzaj_preparatu, PESEL from widok_szczepien;")) {
             int year = Integer.parseInt(record.get(1).split(" ")[0].split("-")[0]);
             int month = Integer.parseInt(record.get(1).split(" ")[0].split("-")[1]);
             int day = Integer.parseInt(record.get(1).split(" ")[0].split("-")[2]);

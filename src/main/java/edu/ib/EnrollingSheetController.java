@@ -26,6 +26,15 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+
+/**
+ * edu.ib.EnrollingSheetController
+ * Allows patient to enroll on vaccination and check vaccinations available to given patient
+ *
+ * @author FR, MD
+ * @version 1.0
+ * @since 2022-02-08
+ */
 public class EnrollingSheetController {
     private Stage stage;
     private Scene scene;
@@ -66,6 +75,13 @@ public class EnrollingSheetController {
 
     @FXML
     private TableColumn<FreeDate, String> vaccine;
+
+    /**
+     * Reads date from id field and displays vaccines available to given id
+     * theoretical or real depending on logged patients permission
+     * @param event on button click
+     * @throws SQLException thrown if SQL request is not valid
+     */
     @FXML
     void checkAction(ActionEvent event) throws SQLException {
         table.getItems().clear();
@@ -135,6 +151,13 @@ public class EnrollingSheetController {
         table.setItems(list);
     }
 
+    /**
+     * Goes back to the main patient scene with
+     *               conserving login
+     * @param event on click of button
+     * @throws IOException thrown is something is wrong with fxml file
+     * @throws SQLException thrown if SQL request is not valid
+     */
     @FXML
     void backAction(ActionEvent event) throws IOException, SQLException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/patientSheet.fxml"));
@@ -147,6 +170,12 @@ public class EnrollingSheetController {
         stage.show();
     }
 
+    /**
+     * Schedules vaccination of patient whose personal id number is given if logged patient has permission
+     * on vaccination given by number
+     * @param event on button click
+     * @throws SQLException thrown if SQL request is not valid
+     */
     @FXML
     void enrollAction(ActionEvent event) throws SQLException {
         table.getItems().clear();
@@ -222,6 +251,9 @@ public class EnrollingSheetController {
         displayDates(login);
     }
 
+    /**
+     * Methode initializes elements of scene
+     */
     @FXML
     void initialize() {
         assert backButton != null : "fx:id=\"backButton\" was not injected: check your FXML file 'enrollingSheet.fxml'.";
@@ -235,6 +267,11 @@ public class EnrollingSheetController {
 
     }
 
+    /**
+     * Methode displays dates of all available vaccines and saves login in field of class
+     * @param login patients personal id number passed from main patients scene
+     * @throws SQLException thrown if SQL request is not valid
+     */
     public void displayDates(String login) throws SQLException {
         this.login = login;
         int n = 0;

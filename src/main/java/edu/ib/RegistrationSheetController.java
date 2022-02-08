@@ -65,11 +65,11 @@ public class RegistrationSheetController {
     private Text resp;
 
     /**
-     * Using data from fields registers new user or
-     * displays reason of failure
+     * When register button is pressed registers patient or gives reason of failure
+     * @param event button clicked
      */
     @FXML
-    void RegisterAction(ActionEvent event) throws IOException, SQLException {
+    void RegisterAction(ActionEvent event) {
         if (peselField.getText().length() != 11)
             resp.setText("Numer PESEL jest nieprawidlowy");
         else{
