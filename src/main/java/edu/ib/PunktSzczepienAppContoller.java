@@ -126,7 +126,7 @@ public class PunktSzczepienAppContoller {
         ObservableList<Szczepionka> lista = FXCollections.observableArrayList();
         nazwa_szczepionki.setCellValueFactory(new PropertyValueFactory<>("nazwa"));
 //        id_szczepionki.setCellValueFactory(new PropertyValueFactory<>("id"));
-        for (ArrayList<String> record : Tester.dataBaseInfo("select Rodzaj_preparatu, `id` from Typy_szczepien;")){
+        for (ArrayList<String> record : Tester.dataBaseInfo("select Rodzaj_preparatu, `id` from Typy_szczepien_view;")){
             lista.add(new Szczepionka(
                     record.get(0)));
 
