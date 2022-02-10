@@ -15,7 +15,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
+/**
+ * edu.ib.UprawnieniaController
+ * Handles the function of adding permissions window.
+ *
+ * @author FR, MD
+ * @version 1.0
+ * @since 2022-02-08
+ */
 public class UprawnieniaController {
 
     private Stage stage;

@@ -22,7 +22,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 /**
- * edu.ib.EnrollingSheetController
+ * edu.ib.PunktSzczepienAppController
  * Handles the function of the main window for vaccination clinic.
  *
  * @author FR, MD

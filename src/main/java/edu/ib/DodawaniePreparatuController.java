@@ -16,7 +16,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
+/**
+ * edu.ib.DodawaniePreparatuController
+ * Handles the function of the window for adding vaccines.
+ *
+ * @author FR, MD
+ * @version 1.0
+ * @since 2022-02-08
+ */
 public class DodawaniePreparatuController {
 
     private Stage stage;

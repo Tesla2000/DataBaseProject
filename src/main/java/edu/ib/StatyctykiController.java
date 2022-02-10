@@ -25,7 +25,14 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-
+/**
+ * edu.ib.StatystykiController
+ * Handles the window with statistics.
+ *
+ * @author FR, MD
+ * @version 1.0
+ * @since 2022-02-08
+ */
 public class StatyctykiController {
 
     public ObservableList<Statystyka> list = FXCollections.observableArrayList();
